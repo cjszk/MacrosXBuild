@@ -32,13 +32,13 @@ class Footer extends React.Component {
                         type: 'MaterialIcons',
                         action: () => this.props.dispatch(toggleTab('library')),
                     },
-                    // {
-                    //     name: 'Tracking',
-                    //     tab: 'tracking',
-                    //     icon: 'line-graph',
-                    //     type: 'entypo',
-                    //     action: () => this.props.dispatch(toggleTab('graphs')),
-                    // },
+                    {
+                        name: 'Stats',
+                        tab: 'stats',
+                        icon: 'line-graph',
+                        type: 'entypo',
+                        action: () => this.props.dispatch(toggleTab('stats')),
+                    },
                     {
                         name: 'Settings',
                         tab: 'settings',
@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flexDirection: 'column',
         alignItems: 'center',
-        // width: '20%',
-        width: '25%',
+        width: '20%',
+        // width: '25%',
     },
     itemIcon: {
 

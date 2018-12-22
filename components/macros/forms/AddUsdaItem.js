@@ -125,8 +125,8 @@ class AddItem extends React.Component {
                     </View>
                     <View style={styles.nutrientsContainer}>
                         <View style={styles.macroContainer}>
-                            {this.renderNutrient(protein, 'protein', globalStyles.proteinColor)}
                             {this.renderNutrient(fat, 'fat', globalStyles.fatFontColor)}
+                            {this.renderNutrient(protein, 'protein', globalStyles.proteinColor)}
                             {this.renderNutrient(carbs, 'carbs', globalStyles.carbsFontColor)}
                         </View>
                         <View style={styles.miscContainer}>
@@ -243,11 +243,12 @@ const styles = StyleSheet.create({
         marginLeft: 'auto',
         marginRight: 'auto',
         padding: 20,
-        backgroundColor: globalStyles.colors.four,
+        backgroundColor: globalStyles.buttonColor,
         width: '50%'
     },
     submitText: {
         textAlign: 'center',
+        color: globalStyles.buttonTextColor,
         fontSize: 18
     }
 })

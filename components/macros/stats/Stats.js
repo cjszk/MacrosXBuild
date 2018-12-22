@@ -2,27 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { toggleTab } from '../../../actions/appState';
-import globalStyles from '../../../globalStyles';
 
-class Settings extends React.Component {
+class Stats extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             buttons: [
                 {
-                    name: 'Goals',
-                    tab: 'goals',
-                    action: () => this.props.dispatch(toggleTab('goals')),
+                    name: 'Tracking',
+                    tab: 'tracking',
+                    action: () => this.props.dispatch(toggleTab('tracking')),
                 },
                 {
-                    name: 'Tracking Settings',
-                    tab: 'trackingSettings',
-                    action: () => this.props.dispatch(toggleTab('trackingSettings')),
-                },
-                {
-                    name: 'Go Ad-Free!',
-                    tab: 'adFree',
-                    action: () => this.props.dispatch(toggleTab('adFree')),
+                    name: 'Graphs',
+                    tab: 'graphs',
+                    action: () => this.props.dispatch(toggleTab('graphs')),
                 },
             ]
         }
@@ -76,4 +70,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Settings);
+export default connect(mapStateToProps)(Stats);

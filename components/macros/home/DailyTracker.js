@@ -54,12 +54,12 @@ const styles = StyleSheet.create({
         marginRight: 'auto',
         padding: 20,
         fontSize: 18,
-        backgroundColor: globalStyles.colors.five,
+        backgroundColor: globalStyles.buttonColor,
     },
     buttonText: {
         textAlign: 'center',
         fontSize: 18,
-        color: globalStyles.colors.three,
+        color: globalStyles.buttonTextColor,
 
     },
 });

@@ -17,6 +17,8 @@ export default function appStateReducer(state=initialState, action) {
 } 
 
 const testData = {
+    tracking: [
+        ],
     settings: {
         trackingSettings: {
             trackFiber: false,
@@ -27,7 +29,7 @@ const testData = {
         protein: 176,
         carbs: 176,
         fat: 48,
-        calories: 1840
+        calories: 1840,
     },
     library: [
         {

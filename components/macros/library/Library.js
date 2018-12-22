@@ -150,8 +150,8 @@ const styles = {
     },
     newItem: {
         fontSize: 18,
-        backgroundColor: globalStyles.colors.five,
-        color: globalStyles.colors.three,
+        backgroundColor: globalStyles.buttonColor,
+        color: globalStyles.buttonTextColor,
         padding: 7.5
     },
     controls: {

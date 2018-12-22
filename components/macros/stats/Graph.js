@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text } from 'react-native';
-import moment from 'moment';
+import { toggleTab } from '../../../actions/appState';
 
 class Graph extends React.Component {
 
     render() {
         return (
         <View style={styles.main}>
-            <Text>Graph</Text>
+            <Text>Test</Text>
         </View>
         );
     }

@@ -12,11 +12,13 @@ import AddItem from '../forms/AddItem';
 import EditTrackedItem from '../forms/EditTrackedItem';
 import EditItem from '../forms/EditItem';
 import Settings from '../settings/Settings';
-import Graphs from '../graphs/Graphs';
+import Stats from '../stats/Stats';
 import Goals from '../settings/Goals';
 import AdFree from '../settings/AdFree';
 import { setNewDay } from '../../../actions/appState';
 import TrackingSettings from '../settings/TrackingSettings';
+import Tracking from '../stats/Tracking';
+import Graph from '../stats/Graph';
 
 class Home extends React.Component {
 
@@ -51,10 +53,12 @@ class Home extends React.Component {
             case 'editTrackedItem': return <View style={styles.main}><EditTrackedItem/></View>;
             case 'editItem': return <View style={styles.main}><EditItem/></View>;
             case 'settings': return <View style={styles.main}><Settings/></View>;
-            case 'graphs': return <View style={styles.main}><Graphs/></View>;
+            case 'stats': return <View style={styles.main}><Stats/></View>;
             case 'goals': return <View style={styles.main}><Goals/></View>;
             case 'adFree': return <View style={styles.main}><AdFree/></View>;
             case 'trackingSettings': return <View style={styles.main}><TrackingSettings/></View>;
+            case 'tracking': return <View style={styles.main}><Tracking/></View>;
+            case 'graphs': return <View style={styles.main}><Graph/></View>;
           }
     }
 

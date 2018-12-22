@@ -28,14 +28,14 @@ class USDAItem extends React.Component {
                 </View>
                 <View style={styles.macros}>
                     <Text style={[styles.macronutrient, {
+                        color: globalStyles.fatFontColor,
+                    }]}>{parseInt(fatPerGram * 1000) / 10}g</Text>
+                    <Text style={[styles.macronutrient, {
                         color: globalStyles.proteinColor,
                     }]}>{parseInt(proteinPerGram * 1000) / 10}g</Text>
                     <Text style={[styles.macronutrient, {
                         color: globalStyles.carbsFontColor,
                     }]}>{parseInt(carbsPerGram * 1000) / 10}g</Text>
-                    <Text style={[styles.macronutrient, {
-                        color: globalStyles.fatFontColor,
-                    }]}>{parseInt(fatPerGram * 1000) / 10}g</Text>
                 </View>
                 <View style={styles.buttonsView}>
                     <TouchableOpacity style={styles.icons} onPress={() => this.props.dispatch(addUsdaItem(item))}>

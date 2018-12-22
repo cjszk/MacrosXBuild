@@ -17,11 +17,11 @@ class LibraryItem extends React.Component {
                 </View>
                 <View style={styles.macros}>
                     <Text style={[styles.macronutrient, {
-                        color: globalStyles.proteinColor,
-                    }]}>{parseInt((item.protein)*10)/10}g</Text>
-                    <Text style={[styles.macronutrient, {
                         color: globalStyles.fatFontColor,
                     }]}>{parseInt((item.fat)*10)/10}g</Text>
+                    <Text style={[styles.macronutrient, {
+                        color: globalStyles.proteinColor,
+                    }]}>{parseInt((item.protein)*10)/10}g</Text>
                     <Text style={[styles.macronutrient, {
                         color: globalStyles.carbsFontColor,
                     }]}>{parseInt((item.carbs)*10)/10}g</Text>

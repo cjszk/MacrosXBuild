@@ -53,12 +53,12 @@ export default function appStateReducer(state=initialState, action) {
     }
     if (action.type === DECREMENT_DATE) {
         return Object.assign({}, state, {
-            date: moment(state.date).subtract(1, 'days')
+            date: moment(state.date).subtract(1, 'days').format()
         });
     }
     if (action.type === INCREMENT_DATE) {
         return Object.assign({}, state, {
-            date: moment(state.date).add(1, 'days')
+            date: moment(state.date).add(1, 'days').format()
         });
     }
     if (action.type === SET_NEW_DAY) {

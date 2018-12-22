@@ -18,14 +18,14 @@ class DailyTrackerItem extends React.Component {
                 </View>
                 <View style={[styles.flexRow, styles.macros]}>
                     <Text style={[styles.macronutrient, {
-                        color: globalStyles.proteinColor,
-                    }]}>
-                        <Text>{parseInt((item.protein * item.servings)*10)/10}g</Text>
-                    </Text>
-                    <Text style={[styles.macronutrient, {
                         color: globalStyles.fatFontColor,
                     }]}>
                         <Text>{parseInt((item.fat * item.servings)*10)/10}g</Text>
+                    </Text>
+                    <Text style={[styles.macronutrient, {
+                        color: globalStyles.proteinColor,
+                    }]}>
+                        <Text>{parseInt((item.protein * item.servings)*10)/10}g</Text>
                     </Text>
                     <Text style={[styles.macronutrient, {
                         color: globalStyles.carbsFontColor,

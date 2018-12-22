@@ -90,8 +90,8 @@ class NewItem extends React.Component {
                     </View>
                     <View style={styles.nutrientsContainer}>
                         <View style={styles.macroContainer}>
-                            {this.renderNutrient(protein, 'protein', null, globalStyles.proteinColor)}
                             {this.renderNutrient(fat, 'fat', null, globalStyles.fatFontColor)}
+                            {this.renderNutrient(protein, 'protein', null, globalStyles.proteinColor)}
                             {this.renderNutrient(carbs, 'carbs', null, globalStyles.carbsFontColor)}
                         </View>
                         <View style={styles.miscContainer}>
@@ -273,10 +273,12 @@ const styles = {
         justifyContent: 'space-around',
         height: 60,
         width: '50%',
-        backgroundColor: globalStyles.colors.four,
+        backgroundColor: globalStyles.buttonColor
+
     },
     submitText: {
         textAlign: 'center',
+        color: globalStyles.buttonTextColor,
         fontSize: 18
     }
 }

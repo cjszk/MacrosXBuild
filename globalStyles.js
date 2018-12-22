@@ -1,8 +1,8 @@
 const macroColors = {
-    protein: '#EDF561',
-    proteinFont: '#EDF561',
-    fat: '#3CAB65',
-    fatFont: '#3CAB65',
+    fat: '#EDF561',
+    fatFont: '#EDF561',
+    protein: '#3CAB65',
+    proteinFont: '#3CAB65',
     carbs: '#2588AB',
     carbsFontColor: '#90CCF4',
     calories: '#F5F5DC'
@@ -45,6 +45,8 @@ export default globalStyles = {
     fatFontColor: macroColors.fatFont,
     caloriesColor: macroColors.calories,
     carbsFontColor: macroColors.carbsFontColor,
+    buttonColor: colors.four,
+    buttonTextColor: colors.two,
     fontColor: '#fff',
     placeHolderTextColor: '#ccc',
     //

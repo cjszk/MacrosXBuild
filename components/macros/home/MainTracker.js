@@ -41,9 +41,8 @@ class MainTracker extends React.Component {
     if (percent >= 1) {
       backgroundColor = 'red';
     };
-    return (<Text style={{height: '100%', width: '100%', position: 'absolute', left: 0, top: 0, backgroundColor, opacity: .7}}></Text>);
+    return (<Text style={{height: '100%', width: '100%', position: 'absolute', left: 0, top: 0, backgroundColor, opacity: .5}}></Text>);
   }
-
 
   renderPie(dailyMacros) {
     try {
@@ -54,9 +53,6 @@ class MainTracker extends React.Component {
         <View style={styles.pieChart}>
           <PieChart
               chart_wh={200}
-              // doughnut={true}
-              // coverRadius={1}
-              // coverFill={'rgba(255, 255, 255, .1)'}
               series={[dailyMacros.protein, dailyMacros.carbs, dailyMacros.fat]}
               sliceColor={[globalStyles.proteinColor, globalStyles.carbColor, globalStyles.fatColor]}
             />
@@ -99,9 +95,7 @@ class MainTracker extends React.Component {
 
   render() {
     if (!this.props) return (<View><Text>Loading...</Text></View>)
-    console.log(this.props.data)
     const { dailyData } = this.props;
-    const { goals } = this.props.data;
     const { trackingSettings } = this.props.data.settings;
     const dailyMacros = this.calculateMacros(dailyData);
     let pie = <View style={styles.pieChart}/>;
@@ -109,8 +103,8 @@ class MainTracker extends React.Component {
     return (
       <View style={styles.mainContainer}>
         <View style={styles.macrosContainer}>
-          {this.createMacroBar('protein', globalStyles.proteinColor, '#000')}
           {this.createMacroBar('fat', globalStyles.fatColor, '#000')}
+          {this.createMacroBar('protein', globalStyles.proteinColor, '#000')}
           {this.createMacroBar('carbs', globalStyles.carbColor, '#000')}
         </View>
         {this.createCalorieBar()}
@@ -126,37 +120,39 @@ class MainTracker extends React.Component {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    padding: '2.5%',
-    height: '68.65%'
+    height: '68.65%',
   },
   macrosContainer: {
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'row',
-    // marginTop: '5%',
+    padding: '2.5%',
     marginBottom: '-10%',
   },
   macroHeader: {
     textAlign: 'center',
     alignSelf: 'center',
-    fontSize: 12,
+    fontSize: 14,
   },
   macroInt: {
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: 14,
   },
   macro: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    width: '27.5%',
-    height: '40%',
+    width: '30%',
+    height: '45%',
   },
   calories: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     height: '10%',
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   misc: {
     marginTop: '5%',

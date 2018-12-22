@@ -29,7 +29,7 @@ class TrackingSettings extends React.Component {
         let status = false;
         if (trackingSettings[key]) status = true;
         return (
-        <View style={[styles.optionContainer, status ? {backgroundColor: globalStyles.colors.four} : {backgroundColor: globalStyles.colors.one}]}>
+        <View style={[styles.optionContainer, status ? {backgroundColor: globalStyles.colors.five} : {backgroundColor: globalStyles.colors.four}]}>
             <TouchableOpacity style={styles.optionButton} onPress={() => {
                 this.changeTrackingSettings(key, !status)
                 this.setState({refreshed: true})
@@ -41,11 +41,30 @@ class TrackingSettings extends React.Component {
         )
     }
 
+    renderKg() {
+        const { trackingSettings } = this.props.data.settings;
+        let kilograms = false;
+        if (trackingSettings.trackByKg) kilograms = true;
+        return (
+            <View style={styles.optionContainer}>
+                <TouchableOpacity style={[styles.optionButton, {backgroundColor: globalStyles.colors.five}]} onPress={() => {
+                    this.changeTrackingSettings('trackByKg', !kilograms)
+                    this.setState({refreshed: true})
+                }}>
+                    <Text style={styles.optionDesc}>Track By: </Text>
+                    <Text style={styles.optionStatus}>{kilograms ? 'kg / cm' : 'lbs / in'}</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
+
     render() {
         return (
         <View style={styles.main}>
             {this.renderOption('Track Fiber', 'trackFiber')}
             {this.renderOption('Track Sugar', 'trackSugar')}
+            {this.renderOption('Track All Body Measurements', 'trackAllBody')}
+            {this.renderKg()}
         </View>
         );
     }
@@ -63,6 +82,7 @@ const styles = {
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '75%',
+        padding: 5,
         marginTop: '2.5%',
         marginBottom: '2.5%',
     },

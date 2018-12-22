@@ -92,9 +92,9 @@ class Goals extends React.Component {
         return (
             <View style={styles.menu}>
                 <View style={styles.macroRow}>
+                    {this.renderNutrientByInt('fat')}
                     {this.renderNutrientByInt('protein')}
                     {this.renderNutrientByInt('carbs')}
-                    {this.renderNutrientByInt('fat')}
                 </View>
                 <View style={styles.caloriesRow}>
                     <Text style={styles.caloriesByMacroText}>Calories: {calculatedCalories}</Text>
@@ -334,9 +334,10 @@ const styles = {
         borderWidth: 0.5,
         borderColor: globalStyles.color,
         width: '50%',
-        backgroundColor: globalStyles.colors.two
+        backgroundColor: globalStyles.buttonColor
     },
     submitText: {
+        color: globalStyles.buttonTextColor,
         textAlign: 'center',
         fontSize: 18
     }

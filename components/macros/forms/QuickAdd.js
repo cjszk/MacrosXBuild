@@ -75,8 +75,8 @@ class QuickAdd extends React.Component {
                     <Text style={styles.header}>Quick Add</Text>
                     <View style={styles.nutrientsContainer}>
                         <View style={styles.macroContainer}>
-                            {this.renderNutrient('protein', globalStyles.proteinColor)}
                             {this.renderNutrient('fat', globalStyles.fatFontColor)}
+                            {this.renderNutrient('protein', globalStyles.proteinColor)}
                             {this.renderNutrient('carbs', globalStyles.carbsFontColor)}
                         </View>
                         <Text style={styles.calorieCount}>Total Calories: {calorieCount}</Text>
@@ -105,13 +105,14 @@ const styles = {
     },
     header: {
         fontSize: 32,
-        alignSelf: 'center'
+        alignSelf: 'center',
+        marginTop: '20%',
     },
     nutrientsContainer: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-around',
-        marginTop: '33%',
+        marginTop: '25%',
         width: '100%',
         height: '49.25%',
         backgroundColor: 'rgba(0, 0, 0, .5)',
@@ -161,10 +162,12 @@ const styles = {
         marginRight: 'auto',
         height: '150%',
         width: '66.67%',
-        backgroundColor: globalStyles.colors.four
+        backgroundColor: globalStyles.buttonColor
+
     },
     submitText: {
         textAlign: 'center',
+        color: globalStyles.buttonTextColor,
         fontSize: 18
     }
 }
