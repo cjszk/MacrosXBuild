@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { LineChart, Grid, YAxis, XAxis } from 'react-native-svg-charts'
+import { StackedAreaChart, Grid, YAxis, XAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 import moment from 'moment';
 import { View, TouchableOpacity, Text } from 'react-native';
@@ -11,55 +11,68 @@ class Graph extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            trackedItem: 'weight',
-            filteredData: []
+            trackedItems: [],
+            dateMin: moment().subtract(-30, 'days').format(),
+            dateMax: moment().format(),
         }
     }
 
-    componentDidMount() {
-        this.filterData();
-    }
-
-    filterData() {
-        const { data } = this.props;
-        const { tracking } = data;
-        const { trackedItem } = this.state;
-        const filteredData = tracking.sort((a, b) => {
-            return moment.utc(a.date).diff(moment.utc(b.date))
-        }).map((item) => {
-            return {
-                date: item.date,
-                value: item[trackedItem],
-                key: trackedItem,
-            }
+    filterDataByDate(data) {
+        data.map(item => {
+            
         });
-        this.setState({filteredData});
     }
 
     render() {
-        const { filteredData } = this.state;
-        if (!filteredData) return <Text>Loading...</Text>
-        console.log(this.state);
-        const data = filteredData.map(item => item.value);
-        const dates = filteredData.map(item => Number(moment(item.date).format('x')));
-        console.log(dates);
-
+        if (!this.props) return <Text>Loading...</Text>
+        const data = this.props.data.tracking.map((item) => {
+            Object.keys(item).forEach(key => {
+                if (item[key] === 0) item[key] = null;
+            })
+            return item;
+        });
+        console.log(data);
+        const colors = [ globalStyles.colors.five, globalStyles.colors.four, globalStyles.colors.three, globalStyles.colors.two ]
+        const keys   = [ 'weight' ]
+        const svgs = [
+                    { onPress: () => console.log(keys[0]) },
+                    { onPress: () => console.log(keys[1]) },
+                ]
+        const contentInset = { top: 20, bottom: 20 }
         return (
             <View style={styles.main}>
                 <View style={styles.chartContainer}>
-                    <LineChart
-                        style={{ flex: 1 }}
+                    <StackedAreaChart
+                        style={ styles.chart }
+                        contentInset={ contentInset }
                         data={ data }
-                        gridMin={ 0 }
-                        contentInset={{ top: 10, bottom: 10 }}
-                        svg={{ stroke: globalStyles.colors.five }}
-                    >
+                        keys={ keys }
+                        colors={ colors }
+                        >
                         <Grid/>
-                    </LineChart>
+                    </StackedAreaChart>
+                    <YAxis
+                        style={ styles.yAxis }
+                        data={ StackedAreaChart.extractDataPoints(data, keys) }
+                        contentInset={ contentInset }
+                        svg={ {
+                            fontSize: 8,
+                            fill: 'white',
+                            stroke: 'white',
+                            strokeWidth: 0.1,
+                            alignmentBaseline: 'baseline',
+                            baselineShift: '3',
+                        } }
+                    />
                     <XAxis
-                        data={{dates}}
-                        formatLabel={ (value, index) => index }
-                        svg={{ fontSize: 10, fill: globalStyles.colors.three }}
+                        style={styles.xAxis}
+                        data={ data }
+                        formatLabel={ (value, index) => {
+                            if (index % (parseInt(data.length * 0.33)) === 0) return moment(data[index].date).format('MM/DD');
+                            else return null;
+                        } }
+                        contentInset={{ left: 10, right: 10 }}
+                        svg={{ fontSize: 10, fill: 'white' }}
                     />
                 </View>
             </View>
@@ -73,12 +86,22 @@ const styles = {
         height: '100%',
     },
     chartContainer: {
-        // height: '100%',
-        // marginTop: '10%',
-        // marginLeft: '5%',
-        padding: 20,
-        height: 200,
-        // marginRight: '5%',
+        height: '60%',
+        marginLeft: '5%',
+        marginRight: '5%',
+    },
+    chart: {
+        flex: 1,
+        height: '100%',
+    },
+    yAxis: {
+        height: '100%',
+        position: 'absolute',
+        left: '-5%',
+    },
+    xAxis: {
+        marginHorizontal: -10,
+        overflow: 'visible'
     }
 }
 
