@@ -40,7 +40,6 @@ class Tracking extends React.Component {
         // Get data for the day if it exists.
         if (data) {
             if (data.tracking) {
-                console.log(date);
                 const item = data.tracking.find((item) => item.date === moment(date).format('MM-DD-YYYY'));
                 if (item) {
                     let items = {
@@ -177,7 +176,6 @@ class Tracking extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         const { data, date } = this.props;
         let measurement = 'lbs / in.';
         if (data.settings.trackingSettings.trackByKg) measurement = 'kg / cm';

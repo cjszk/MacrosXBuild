@@ -104,17 +104,17 @@ class AddItem extends React.Component {
 const styles = StyleSheet.create({
     main: {
         height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, .5)',
     },
     mainContainer: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        backgroundColor: 'rgba(0, 0, 0, .5)',
         marginTop: 10,
         padding: 10,
     },
     header: {
-        fontSize: 18,
+        fontSize: 32,
         width: '100%',
         alignSelf: 'center',
         textAlign: 'center',

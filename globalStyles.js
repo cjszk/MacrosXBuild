@@ -8,15 +8,6 @@ const macroColors = {
     calories: '#F5F5DC'
 } 
 
-// const colors =  {
-//     one: '#F78888',
-//     two: '#F3D250',
-//     five: '#4996d0',
-//     four: '#ECECEC',
-//     three: '#90CCF4',
-//     listIcon: '#90CCF4'
-// };
-
 const colors = {
     one: '#05386B',
     two: '#EDF5E1',
@@ -45,10 +36,11 @@ export default globalStyles = {
     fatFontColor: macroColors.fatFont,
     caloriesColor: macroColors.calories,
     carbsFontColor: macroColors.carbsFontColor,
-    buttonColor: colors.four,
-    buttonTextColor: colors.two,
+    buttonColor: colors.five,
+    buttonTextColor: '#333',
     fontColor: '#fff',
     placeHolderTextColor: '#ccc',
+    iconColor: colors.two,
     //
     menuColor: {
         macros: colors.five,

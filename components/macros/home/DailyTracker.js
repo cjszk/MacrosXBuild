@@ -26,12 +26,13 @@ class DailyTracker extends React.Component {
         let renderItems = dailyData.sort((a, b) => moment(a.date).format('x') - moment(b.date).format('x')).map((item, index) => <DailyTrackerItem item={item} key={index}/>);
         if (dailyData.length === 0) renderItems = this.renderEmpty();
         return (
-            <View>
-                <ScrollView style={styles.main} ref={ref => this.scrollView = ref}
+            <View style={styles.main}>
+                <ScrollView style={styles.scroll} ref={ref => this.scrollView = ref}
                 onContentSizeChange={(contentWidth, contentHeight)=>{        
                     this.scrollView.scrollToEnd({animated: true});
                 }}>
                     {renderItems}
+                    {dailyData.length ? <DailyTrackerItem item={null} key={null}/> : null}
                 </ScrollView>
             </View>
         );
@@ -40,10 +41,15 @@ class DailyTracker extends React.Component {
 
 const styles = StyleSheet.create({
     main: {
-        // position: 'absolute',
-        height: '26.5%',
-        // bottom: '20%',
+        position: 'absolute',
+        // height: '26.5%',
+        bottom: '1%',
+        width: '100%',
+        height: '37.5%',
         // left: 0,
+    },
+    scroll: {
+    
     },
     buttonsContainer: {
         flexDirection: 'row',

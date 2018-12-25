@@ -22,7 +22,7 @@ class NewItem extends React.Component {
 
     renderNutrient(macro, key, optional=null, borderBottomColor=globalStyles.colors.four) {
         let optionalStyle;
-        if (optional) optionalStyle = {color: 'grey'};
+        if (optional) optionalStyle = {color: globalStyles.placeHolderTextColor};
         else optionalStyle = {color: borderBottomColor};
         const title = key.split('')[0].toUpperCase() + key.split('').slice(1).join('');
         const macroValue = this.state[key];
@@ -135,15 +135,13 @@ class NewItem extends React.Component {
 const styles = {
     main: {
         height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, .5)',
     },
     mainContainer: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
         padding: 10,
-        // backgroundColor: 'rgba(5, 56, 107, .5)',
-        backgroundColor: 'rgba(0, 0, 0, .5)',
-
     },
     header: {
         fontSize: 32,

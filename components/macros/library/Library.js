@@ -121,10 +121,10 @@ class Library extends React.Component {
         return (
             <View style={styles.main}>
                 <View style={styles.controls}>
-                    <TextInput placeholder='Search Online' placeholderTextColor={globalStyles.placeHolderTextColor} style={styles.search} value={searchQuery} onChangeText={(searchQuery) => this.search(searchQuery)}/>
                     <TouchableOpacity onPress={() => this.props.dispatch(toggleTab('newItem'))}>
                         <Text style={styles.newItem}>New Item</Text>
                     </TouchableOpacity>
+                    <TextInput placeholder='Search Online' placeholderTextColor={globalStyles.placeHolderTextColor} style={styles.search} value={searchQuery} onChangeText={(searchQuery) => this.search(searchQuery)}/>
                 </View>
                 <View style={styles.list}>
                     <ScrollView
@@ -151,7 +151,7 @@ const styles = {
     newItem: {
         fontSize: 18,
         backgroundColor: globalStyles.buttonColor,
-        color: globalStyles.buttonTextColor,
+        color: globalStyles.buttonTextColor,    
         padding: 7.5
     },
     controls: {
@@ -173,7 +173,7 @@ const styles = {
         color: globalStyles.fontColor
     },
     list: {
-        height: '39.5%'
+        height: '62.5%'
     },
     loading: {
         // position: 'absolute',

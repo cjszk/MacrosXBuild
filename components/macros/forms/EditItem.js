@@ -127,7 +127,7 @@ class NewItem extends React.Component {
                 </View>
                 <View style={styles.buttons}>
                     <TouchableOpacity style={styles.delete}onPress={() => this.deleteItem()}>
-                        <Icon name='trash' type='entypo' size={60}/>
+                        <Icon name='trash' type='entypo' size={60} color={globalStyles.iconColor}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.submit}onPress={() => this.handleSubmit()}>
                         <Text style={styles.submitText}>Enter</Text>
@@ -141,13 +141,14 @@ class NewItem extends React.Component {
 const styles = {
     main: {
         height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, .5)',
+
     },
     mainContainer: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
         padding: 10,
-        backgroundColor: 'rgba(0, 0, 0, .5)',
     },
     header: {
         fontSize: 18,
@@ -167,6 +168,7 @@ const styles = {
         width: '30%'
     },
     nameInput: {
+        borderBottomColor: globalStyles.colors.four,
         borderBottomWidth: 2,
         padding: 10,
         marginTop: 10,

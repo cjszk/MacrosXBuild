@@ -238,11 +238,13 @@ const styles = {
     main: {
         display: 'flex',
         flexDirection: 'column',
-        height: '100%'
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, .5)',
     },
     header: {
         textAlign: 'center',
         fontSize: 32,
+        color: globalStyles.fontColor,
         marginTop: '5%',
         marginBottom: '5%',
     },
@@ -259,17 +261,19 @@ const styles = {
         padding: '5%'
     },
     buttonText: {
-        fontSize: 24,
+        fontSize: 18,
+        color: globalStyles.fontColor,
         textAlign: 'center',
     },
     selected: {
-        backgroundColor: globalStyles.colors.five
+        backgroundColor: globalStyles.colors.four
     },
     menu: {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-around',
         height: '50%',
+        marginTop: 35,
     },
     macroRow: {
         display: 'flex',
@@ -288,6 +292,7 @@ const styles = {
     },
     macroText: {
         alignSelf: 'center',
+        color: globalStyles.fontColor,
         marginTop: '5%',
     },
     macroInput: {
@@ -297,12 +302,15 @@ const styles = {
         marginTop: 10,
         width: 60,
         height: 40,
+        color: globalStyles.fontColor,
         textAlign: 'center',
     },
     macroAmount: {
+        color: globalStyles.fontColor,
         textAlign: 'center',
     },
     caloriesByMacroText: {
+        color: globalStyles.fontColor,
         marginTop: 10,
         fontSize: 24,
     },
@@ -312,9 +320,11 @@ const styles = {
         justifyContent: 'space-around'
     },
     caloriesText: {
+        color: globalStyles.fontColor,
         alignSelf: 'center',
     },
     caloriesInput: {
+        color: globalStyles.fontColor,
         alignSelf: 'center',
         borderBottomColor: globalStyles.colors.four,
         borderBottomWidth: 2,
@@ -324,21 +334,20 @@ const styles = {
         textAlign: 'center',
     },
     showPercentText: {
+        color: globalStyles.fontColor,
         textAlign: 'center'
     },
     submit: {
         marginLeft: 'auto',
         marginRight: 'auto',
         padding: 20,
-        borderRadius: 4,
-        borderWidth: 0.5,
-        borderColor: globalStyles.color,
         width: '50%',
         backgroundColor: globalStyles.buttonColor
+        
     },
     submitText: {
-        color: globalStyles.buttonTextColor,
         textAlign: 'center',
+        color: globalStyles.buttonTextColor,
         fontSize: 18
     }
 }

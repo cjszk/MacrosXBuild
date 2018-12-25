@@ -111,7 +111,7 @@ class AddItem extends React.Component {
                 </View>
                 <View style={styles.buttons}>
                     <TouchableOpacity style={styles.delete}onPress={() => this.deleteItem()}>
-                        <Icon name='trash' type='entypo' size={60}/>
+                        <Icon name='trash' type='entypo' size={60} color={globalStyles.iconColor}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.submit}onPress={() => this.handleSubmit()}>
                         <Text style={styles.submitText}>Enter</Text>
@@ -125,6 +125,8 @@ class AddItem extends React.Component {
 const styles = {
     main: {
         height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, .5)',
+
     },
     mainContainer: {
         display: 'flex',
@@ -132,7 +134,6 @@ const styles = {
         justifyContent: 'space-between',
         marginTop: 10,
         padding: 10,
-        backgroundColor: 'rgba(0, 0, 0, .5)',
     },
     header: {
         fontSize: 18,

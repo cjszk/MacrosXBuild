@@ -29,6 +29,8 @@
     "babel-preset-react-native": "5.0.2",
     "eslint": "^5.10.0",
     "jest": "23.6.0",
+    "react-native-svg": "^8.0.10",
+    "react-native-svg-charts": "^5.2.0",
     "react-test-renderer": "16.4.1"
   },
   "jest": {

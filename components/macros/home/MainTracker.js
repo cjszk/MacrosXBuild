@@ -8,7 +8,8 @@ class MainTracker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filteredItems: []
+      filteredItems: [],
+      componentHeight: 450,
     }
   }
 
@@ -46,13 +47,14 @@ class MainTracker extends React.Component {
 
   renderPie(dailyMacros) {
     try {
+      const { componentHeight } = this.state;
       const { goals } = this.props.data;
       let coverRadius = dailyMacros.calories / goals.calories;
       coverRadius = coverRadius > 1 ? 1 : coverRadius;
       return (
         <View style={styles.pieChart}>
           <PieChart
-              chart_wh={200}
+              chart_wh={componentHeight / 2.33}
               series={[dailyMacros.protein, dailyMacros.carbs, dailyMacros.fat]}
               sliceColor={[globalStyles.proteinColor, globalStyles.carbColor, globalStyles.fatColor]}
             />
@@ -101,7 +103,9 @@ class MainTracker extends React.Component {
     let pie = <View style={styles.pieChart}/>;
     if (dailyMacros.protein > 0 || dailyMacros.carbs > 0 || dailyMacros.fat > 0) pie = this.renderPie(dailyMacros);  
     return (
-      <View style={styles.mainContainer}>
+      <View style={styles.mainContainer} onLayout={(event) => {
+        this.setState({componentHeight: event.nativeEvent.layout.height});
+      }}>
         <View style={styles.macrosContainer}>
           {this.createMacroBar('fat', globalStyles.fatColor, '#000')}
           {this.createMacroBar('protein', globalStyles.proteinColor, '#000')}

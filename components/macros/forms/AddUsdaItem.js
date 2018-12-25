@@ -22,14 +22,14 @@ class AddItem extends React.Component {
         }
     }
 
-    renderNutrient(macro, key, color='#000') {
+    renderNutrient(macro, key, color=globalStyles.placeHolderTextColor) {
         const title = key.split('')[0].toUpperCase() + key.split('').slice(1).join('');
         let { servings } = this.state;
         if (!servings) servings = 0;
         const amount = Number(parseInt(macro * servings)) ? String(parseInt(macro * servings)) : 0;
         return (
         <View style={styles.macro}>
-            <Text style={styles.macroText}>{title}</Text>
+            <Text style={[styles.macroText, {color}]}>{title}</Text>
             <Text style={[styles.macroInt, {color}]}>{amount} grams</Text>
         </View>
         )
@@ -147,6 +147,8 @@ class AddItem extends React.Component {
 const styles = StyleSheet.create({
     main: {
         height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, .5)',
+
     },
     mainContainer: {
         display: 'flex',
@@ -154,7 +156,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: 10,
         padding: 10,
-        backgroundColor: 'rgba(0, 0, 0, .5)',
     },
     header: {
         fontSize: 18,

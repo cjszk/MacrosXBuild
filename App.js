@@ -6,7 +6,6 @@ import Footer from './components/global/Footer/';
 import HomeSwitch from './components/Homeswitch';
 import store from './store';
 import { saveData } from './actions/data';
-import globalStyles from './globalStyles';
 import wood_resized from './images/wood_resized.jpg';
 
 export default class App extends React.Component {

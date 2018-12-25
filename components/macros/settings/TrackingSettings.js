@@ -46,8 +46,8 @@ class TrackingSettings extends React.Component {
         let kilograms = false;
         if (trackingSettings.trackByKg) kilograms = true;
         return (
-            <View style={styles.optionContainer}>
-                <TouchableOpacity style={[styles.optionButton, {backgroundColor: globalStyles.colors.five}]} onPress={() => {
+            <View style={[styles.optionContainer, kilograms ? {backgroundColor: globalStyles.colors.five} : {backgroundColor: globalStyles.colors.three}]}>
+                <TouchableOpacity style={styles.optionButton} onPress={() => {
                     this.changeTrackingSettings('trackByKg', !kilograms)
                     this.setState({refreshed: true})
                 }}>
@@ -61,10 +61,10 @@ class TrackingSettings extends React.Component {
     render() {
         return (
         <View style={styles.main}>
+            {this.renderKg()}
             {this.renderOption('Track Fiber', 'trackFiber')}
             {this.renderOption('Track Sugar', 'trackSugar')}
             {this.renderOption('Track All Body Measurements', 'trackAllBody')}
-            {this.renderKg()}
         </View>
         );
     }
@@ -82,7 +82,7 @@ const styles = {
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '75%',
-        padding: 5,
+        height: '10%',
         marginTop: '2.5%',
         marginBottom: '2.5%',
     },
@@ -96,11 +96,11 @@ const styles = {
     optionDesc: {
         textAlign: 'center',
         fontSize: 18,
+        
     },
     optionStatus: {
         textAlign: 'center',
         fontSize: 18,
-        padding: 10,
     }
 }
 

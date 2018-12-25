@@ -95,6 +95,7 @@ class QuickAdd extends React.Component {
 const styles = {
     main: {
         height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, .5)',
     },
     mainContainer: {
         display: 'flex',
@@ -107,6 +108,7 @@ const styles = {
         fontSize: 32,
         alignSelf: 'center',
         marginTop: '20%',
+        color: globalStyles.fontColor
     },
     nutrientsContainer: {
         display: 'flex',
@@ -115,7 +117,6 @@ const styles = {
         marginTop: '25%',
         width: '100%',
         height: '49.25%',
-        backgroundColor: 'rgba(0, 0, 0, .5)',
     },
     macroContainer: {
         display: 'flex',
