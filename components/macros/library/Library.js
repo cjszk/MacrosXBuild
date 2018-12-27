@@ -8,7 +8,6 @@ import USDAItem from './usdaItem';
 import { toggleTab } from '../../../actions/appState';
 
 // const API_KEY = process.env.REACT_APP_USDA_API_KEY;
-const API_KEY = 'N12asrcuD5j7Su6Zy5J8ZtrUtxLahcSPQyR701Mf';
 
 class Library extends React.Component {
 
