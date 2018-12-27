@@ -35,8 +35,6 @@ class Tracking extends React.Component {
 
     getCurrentDayData() {
         const { data, date } = this.props;
-        let pounds = true;
-        if (data.settings.trackingSettings.trackByKg) pounds = false;
         // Get data for the day if it exists.
         if (data) {
             if (data.tracking) {
@@ -51,32 +49,6 @@ class Tracking extends React.Component {
                         waistBelow: item.waistBelow,
                         hips: item.hips,
                         legs: item.legs,
-                    }
-                    // convert to pounds & inches
-                    if (pounds && item.measurement === 'kilograms') {
-                        items = {
-                            weight: item.weight * 2.2,
-                            chest: item.chest / 2.54,
-                            arms: item.arms / 2.54,
-                            waistAbove: item.waistAbove / 2.54,
-                            waist: item.waist / 2.54,
-                            waistBelow: item.waistBelow / 2.54,
-                            hips: item.hips / 2.54,
-                            legs: item.legs / 2.54,
-                        }
-                    }
-                    // convert to kilograms & centimeters
-                    else if (!pounds && item.measurement === 'pounds') {
-                        items = {
-                            weight: item.weight / 2.2,
-                            chest: item.chest * 2.54,
-                            arms: item.arms * 2.54,
-                            waistAbove: item.waistAbove * 2.54,
-                            waist: item.waist * 2.54,
-                            waistBelow: item.waistBelow * 2.54,
-                            hips: item.hips * 2.54,
-                            legs: item.legs * 2.54,
-                        }
                     }
                     this.setState(items);
                 }

@@ -64,15 +64,16 @@ class Graph extends React.Component {
         let label;
         if (this.props.data.settings.trackingSettings.trackByKg && trackedItem === 'weight') label = 'kg';
         else if (trackedItem === 'weight') label = 'lbs';
-        if (Object.keys(data[0]).includes('protein') && Object.keys(data[0]).includes('fat') && Object.keys(data[0]).includes('carbs')) {
+        else if (trackedItem === 'calories') label = 'kcal';
+        if (trackedItem === 'macros') {
             if (!data[0].protein && !data[0].fat && !data[0].carbs) return null;
             return data.map((item) => 
                 <View key={item.date} style={styles.singleDataContainer}>
                     <Text style={styles.dataDate}>{item.date}</Text>
                     <View style={styles.dataMacros}>
-                        <Text style={[styles.dataValue, {fontSize: 10, color: globalStyles.fatColor}]}>{parseInt(item.fat/9)}g/</Text>
-                        <Text style={[styles.dataValue, {fontSize: 10, color: globalStyles.proteinColor}]}>{parseInt(item.protein/4)}g/</Text>
-                        <Text style={[styles.dataValue, {fontSize: 10, color: globalStyles.carbColor}]}>{parseInt(item.carbs/4)}g</Text>
+                        <Text style={[styles.dataValue, {fontSize: 14, color: globalStyles.fatColor}]}>{parseInt(item.fat/9)}g/</Text>
+                        <Text style={[styles.dataValue, {fontSize: 14, color: globalStyles.proteinColor}]}>{parseInt(item.protein/4)}g/</Text>
+                        <Text style={[styles.dataValue, {fontSize: 14, color: globalStyles.carbColor}]}>{parseInt(item.carbs/4)}g</Text>
                     </View>
                 </View>
             );
@@ -88,40 +89,48 @@ class Graph extends React.Component {
     render() {
         if (!this.props) return <Text>Loading...</Text>
         const { dateMin, dateMax, trackedItem } = this.state;
-        let data = this.filterDataByDate(this.props.data.tracking.map((item) => {
+        const { data } = this.props;
+
+        let graphData = this.filterDataByDate(data.tracking).map((item) => {
             Object.keys(item).forEach(key => {
                 if (item[key] === 0) item[key] = null;
             });
             return item;
-        })).slice();
-        if (trackedItem === 'kcal' || trackedItem === 'macros') {
-            data = this.filterDataByDate(this.props.data.entries.slice()).map((item, i) => {
-                item.date = moment(item.date).format('MM-DD-YYYY');
-                item.key = i;
-                return item;
+        });
+        if (trackedItem === 'calories' || trackedItem === 'macros') {
+            graphData = this.filterDataByDate(data.entries).map((item, i) => {
+                return {
+                    fat: item.fat,
+                    protein: item.protein,
+                    carbs: item.carbs,
+                    calories: item.calories,
+                    date: moment(item.date).format('MM-DD-YYYY'),
+                    key: i
+                };
             }).sort((a, b) => moment(a.date).format('x') - moment(b.date).format('x'));
             let newData = {};
-            for (let i=0; i<data.length; i++) {
-                if (!Object.keys(newData).includes([data[i].date])) {
-                    newData[data[i].date] = {
+            for (let i=0; i<graphData.length; i++) {
+                if (!Object.keys(newData).includes([graphData[i].date])) {
+                    newData[graphData[i].date] = {
                         key: i,
-                        date: data[i].date,
+                        date: graphData[i].date,
                         carbs: 0,
                         protein: 0,
                         fat: 0,
                         calories: 0,
                     }
                 }
-                newData[data[i].date].fat = newData[data[i].date].fat + data[i].fat*9;
-                newData[data[i].date].protein = newData[data[i].date].protein + data[i].protein*4;
-                newData[data[i].date].carbs = newData[data[i].date].carbs + data[i].carbs*4;
-                newData[data[i].date].calories = newData[data[i].date].calories + data[i].fat*9 + data[i].protein*4 + data[i].carbs*4;
+                newData[graphData[i].date].fat = newData[graphData[i].date].fat + graphData[i].fat*9;
+                newData[graphData[i].date].protein = newData[graphData[i].date].protein + graphData[i].protein*4;
+                newData[graphData[i].date].carbs = newData[graphData[i].date].carbs + graphData[i].carbs*4;
+                newData[graphData[i].date].calories = newData[graphData[i].date].calories + graphData[i].fat*9 + graphData[i].protein*4 + graphData[i].carbs*4;
             }
-            data = [];
+            graphData = [];
             Object.keys(newData).forEach((item) => {
-                data.push(newData[item]);
+                graphData.push(newData[item]);
             })
         }
+
         let colors = [ 'rgba(125,255,125,.3)' ];
         const svgs = [
                     { onPress: () => console.log(trackedItem) },
@@ -134,10 +143,10 @@ class Graph extends React.Component {
             trackedItemData = ['fat', 'protein', 'carbs'];
             colors = [ 'rgba(237,245,97,.3)', 'rgba(60,171,101,.3)', 'rgba(37,136,171,.3)' ]
         }
-        if (trackedItem === 'kcal') {
+        if (trackedItem === 'calories') {
             trackedItemData = ['calories']
         }
-        if (!data.length) data = [{
+        if (!graphData.length) graphData = [{
             weight: null,
             fat: null,
             protein: null,
@@ -145,7 +154,6 @@ class Graph extends React.Component {
             calories: null,
             date: null,
         }];
-        console.log(data);
         return (
             <View style={styles.main}>
                 <DateTimePicker
@@ -166,7 +174,7 @@ class Graph extends React.Component {
                     <StackedAreaChart
                         style={ styles.chart }
                         contentInset={ contentInset }
-                        data={ data }
+                        data={ graphData }
                         keys={ trackedItemData }
                         colors={ colors }
                         curve={ shape.curveNatural }
@@ -175,7 +183,7 @@ class Graph extends React.Component {
                     </StackedAreaChart>
                     <YAxis
                         style={ styles.yAxis }
-                        data={ StackedAreaChart.extractDataPoints(data, trackedItemData) }
+                        data={ StackedAreaChart.extractDataPoints(graphData, trackedItemData) }
                         contentInset={ contentInset }
                         svg={ {
                             fontSize: 10,
@@ -188,7 +196,7 @@ class Graph extends React.Component {
                     />
                     <XAxis
                         style={styles.xAxis}
-                        data={ data }
+                        data={ graphData }
                         formatLabel={ (value, index) => {
                             if (index % (parseInt(data.length * 0.33)) === 0 || index === data.length - 1) return moment(data[index].date).format('MM/DD');
                             else return null;
@@ -219,7 +227,7 @@ class Graph extends React.Component {
                 </View>
                 <View style={styles.dataContainer}>
                     <ScrollView horizontal={true}>
-                        {this.renderData(data)}
+                        {this.renderData(graphData)}
                     </ScrollView>
                 </View>
                 <Picker itemStyle={[styles.picker,{color: globalStyles.fontColor}]} selectedValue={trackedItem} 
@@ -227,7 +235,7 @@ class Graph extends React.Component {
                         this.setState({trackedItem: itemValue})}
                     }>
                     <Picker.Item key="weight" label="weight" value="weight"/>
-                    <Picker.Item key="kcal" label="kcal" value="kcal"/>
+                    <Picker.Item key="calories" label="calories" value="calories"/>
                     <Picker.Item key="macros" label="macros" value="macros"/>
                 </Picker>
             </View>
@@ -299,7 +307,7 @@ const styles = {
         flexDirection: 'row'
     },
     dataValue: {
-        color: globalStyles.fontColor,
+        color: globalStyles.colors.five,
         fontSize: 18,
         textAlign: 'center',
     },

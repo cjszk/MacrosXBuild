@@ -32,7 +32,7 @@ class MainTracker extends React.Component {
   createColorBar(percent, color) {
     let backgroundColor = color;
     let width = String(percent * 100) + '%';
-    if (percent >= 1) {
+    if (percent > 1) {
       backgroundColor = 'red';
       width = '100%';
     };
@@ -40,7 +40,7 @@ class MainTracker extends React.Component {
   }
   createInitialColorBar(percent, color) {
     let backgroundColor = color;
-    if (percent >= 1) {
+    if (percent > 1) {
       backgroundColor = 'red';
     };
     return (<Text style={{height: '100%', width: '100%', position: 'absolute', left: 0, top: 0, backgroundColor, opacity: .5}}></Text>);

@@ -65,6 +65,7 @@ class Home extends React.Component {
     render() {
         if (this.props.tab !== 'home') return this.handleTabMacros();
         const dailyData = this.getCurrentDayData();
+        console.log(this.props.data)
         return (
         <View style={styles.main}>
             <MainTracker dailyData={dailyData}/>

@@ -145,6 +145,7 @@ class Goals extends React.Component {
                     trackSugar: false,
                 }
             },
+            tracking: [],
             entries: [],
             library: [
                 {

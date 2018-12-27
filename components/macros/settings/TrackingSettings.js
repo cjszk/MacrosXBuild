@@ -13,10 +13,42 @@ class TrackingSettings extends React.Component {
 
     changeTrackingSettings = async (key, status) => {
         const { data } = this.props;
-        let newEntry = data.settings.trackingSettings;
-        newEntry[key] = status;
         let newData = data;
-        newData.settings.trackingSettings = newEntry;
+        newData.settings.trackingSettings[key] = status;
+        
+        let newTracking = data.tracking.map(item => {
+            console.log(item);
+            console.log(status, item.measurement)
+            if (status && item.measurement === 'pounds') {
+                return {
+                    arms: parseInt(item.arms * 2.54),
+                    chest: parseInt(item.chest * 2.54),
+                    hips: parseInt(item.hips * 2.54),
+                    legs: parseInt(item.legs * 2.54),
+                    waist: parseInt(item.waist * 2.54),
+                    waistAbove: parseInt(item.waistAbove * 2.54),
+                    waistBelow: parseInt(item.waistBelow * 2.54),
+                    weight: parseInt(item.weight / 2.2),
+                    date: item.date,
+                    measurement: 'kilograms'
+                }
+            }
+            return {
+                arms: parseInt(item.arms / 2.54),
+                chest: parseInt(item.chest / 2.54),
+                hips: parseInt(item.hips / 2.54),
+                legs: parseInt(item.legs / 2.54),
+                waist: parseInt(item.waist / 2.54),
+                waistAbove: parseInt(item.waistAbove / 2.54),
+                waistBelow: parseInt(item.waistBelow / 2.54),
+                weight: parseInt(item.weight * 2.2),
+                date: item.date,
+                measurement: 'pounds'
+            }
+        });
+
+        newData.tracking = newTracking;
+
         try {
           await AsyncStorage.setItem('data', JSON.stringify(newData));
         } catch (error) {
