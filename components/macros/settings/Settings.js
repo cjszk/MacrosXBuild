@@ -10,7 +10,7 @@ class Settings extends React.Component {
         this.state = {
             buttons: [
                 {
-                    name: 'Goals',
+                    name: 'Daily Goals',
                     tab: 'goals',
                     action: () => this.props.dispatch(toggleTab('goals')),
                 },

@@ -109,7 +109,7 @@ class Goals extends React.Component {
         const percent = proteinP + carbsP + fatP;
         return (
             <View style={styles.menu}>
-                <View style={styles.caloriesRow}>
+                <View style={[styles.caloriesRow, {marginTop: '-3%'}]}>
                     <View style={styles.calories}>
                         <Text style={styles.caloriesText}>Calories</Text>
                         <TextInput
