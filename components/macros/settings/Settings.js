@@ -20,7 +20,7 @@ class Settings extends React.Component {
                     action: () => this.props.dispatch(toggleTab('trackingSettings')),
                 },
                 {
-                    name: 'Go Ad-Free!',
+                    name: 'Plus Membership',
                     tab: 'adFree',
                     action: () => this.props.dispatch(toggleTab('adFree')),
                 },
@@ -31,8 +31,8 @@ class Settings extends React.Component {
     createButtons() {
         const { buttons } = this.state;
         return buttons.map((button) => (
-            <TouchableOpacity key={button.tab} style={styles.button} onPress={() => button.action()}>
-                <Text style={styles.buttonText}>{button.name}</Text>
+            <TouchableOpacity key={button.tab} style={button.tab === 'adFree' ? [styles.button, {backgroundColor: globalStyles.colors.one}] : styles.button} onPress={() => button.action()}>
+                <Text style={button.tab === 'adFree' ? [styles.buttonText, {color: globalStyles.colors.two}] : [styles.buttonText]}>{button.name}</Text>
             </TouchableOpacity>
         ));
     }

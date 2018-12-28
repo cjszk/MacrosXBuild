@@ -17,8 +17,6 @@ class TrackingSettings extends React.Component {
         newData.settings.trackingSettings[key] = status;
         
         let newTracking = data.tracking.map(item => {
-            console.log(item);
-            console.log(status, item.measurement)
             if (status && item.measurement === 'pounds') {
                 return {
                     arms: parseInt(item.arms * 2.54),

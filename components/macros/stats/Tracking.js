@@ -38,7 +38,7 @@ class Tracking extends React.Component {
         // Get data for the day if it exists.
         if (data) {
             if (data.tracking) {
-                const item = data.tracking.find((item) => item.date === moment(date).format('MM-DD-YYYY'));
+                const item = data.tracking.find((item) => item.date === moment(date).format('MM/DD/YYYY'));
                 if (item) {
                     let items = {
                         weight: item.weight,
@@ -76,7 +76,7 @@ class Tracking extends React.Component {
         if (data.settings.trackingSettings.trackByKg) measurement = 'kilograms';
         let newData = data;
         const newEntry = {
-            date: moment(date).format('MM-DD-YYYY'),
+            date: moment(date).format('MM/DD/YYYY'),
             weight,
             chest,
             arms,
@@ -89,12 +89,12 @@ class Tracking extends React.Component {
         }
         if (!Object.keys(newData).includes('tracking')) newData.tracking = [];
         
-        if (!newData.tracking.find(item => item.date === moment(date).format('MM-DD-YYYY'))) {
+        if (!newData.tracking.find(item => item.date === moment(date).format('MM/DD/YYYY'))) {
             newData.tracking.push(newEntry);
         } 
         else {
             newData.tracking = newData.tracking.map((item) => {
-                if (item.date === moment(date).format('MM-DD-YYYY')) return newEntry;
+                if (item.date === moment(date).format('MM/DD/YYYY')) return newEntry;
                 return item;
             }) 
         }

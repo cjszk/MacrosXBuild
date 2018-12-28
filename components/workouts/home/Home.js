@@ -9,7 +9,7 @@ class Home extends React.Component {
         let results = [];
         if (Object.keys(this.props.data).length) {
           results = this.props.data.entries.filter((item) => {
-            if (moment(this.props.date).format('MM-DD-YYYY') === moment(item.date).format('MM-DD-YYYY')) {
+            if (moment(this.props.date).format('MM/DD/YYYY') === moment(item.date).format('MM/DD/YYYY')) {
               return item; 
             }
           })

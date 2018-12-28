@@ -26,7 +26,7 @@ class Home extends React.Component {
         let results = [];
         if (Object.keys(this.props.data).includes('entries')) {
           results = this.props.data.entries.filter((item) => {
-            if (moment(this.props.date).format('MM-DD-YYYY') === moment(item.date).format('MM-DD-YYYY')) {
+            if (moment(this.props.date).format('MM/DD/YYYY') === moment(item.date).format('MM/DD/YYYY')) {
               return item; 
             }
           })
@@ -40,7 +40,7 @@ class Home extends React.Component {
 
     handleNewDay() {
         const { currentDate } = this.props;
-        if (moment(currentDate).add(1, 'days').format('YYYY-MM-DD') === moment().format('YYYY-MM-DD')) this.props.dispatch(setNewDay());        
+        if (moment(currentDate).add(1, 'days').format('MM/DD/YYYY') === moment().format('MM/DD/YYYY')) this.props.dispatch(setNewDay());        
     }
 
     handleTabMacros() {
@@ -65,7 +65,6 @@ class Home extends React.Component {
     render() {
         if (this.props.tab !== 'home') return this.handleTabMacros();
         const dailyData = this.getCurrentDayData();
-        console.log(this.props.data)
         return (
         <View style={styles.main}>
             <MainTracker dailyData={dailyData}/>

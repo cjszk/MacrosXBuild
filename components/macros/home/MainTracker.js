@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, Text, View } from 'react-native';
 import { PieChart } from 'react-native-svg-charts'
-// import PieChart from 'react-native-pie-chart';
 import globalStyles from '../../../globalStyles';
 
 class MainTracker extends React.Component {
@@ -48,38 +47,28 @@ class MainTracker extends React.Component {
 
   renderPie(dailyMacros) {
     try {
-      // const { componentHeight } = this.state;
-      // const { goals } = this.props.data;
-      // let coverRadius = dailyMacros.calories / goals.calories;
-      // coverRadius = coverRadius > 1 ? 1 : coverRadius;
-      const data = [ dailyMacros.protein, dailyMacros.carbs, dailyMacros.fat ];
-
-      const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 2)
+      const data = [ dailyMacros.protein, dailyMacros.carbs, dailyMacros.fat ]
+ 
+      const colors = [globalStyles.proteinColor, globalStyles.carbColor, globalStyles.fatColor,]
 
       const pieData = data
           .filter(value => value > 0)
           .map((value, index) => ({
               value,
               svg: {
-                  fill: randomColor(),
-                  onPress: () => console.log('press', index),
+                  fill: colors[index],
+                  // onPress: () => console.log('press', index),
               },
               key: `pie-${index}`,
           }))
-          console.log(pieData)
+
       return (
-        <View style={styles.pieChart}>
-            <PieChart
-              style={{height: 200}}
+          <PieChart
+              style={ { height: 200 } }
               data={ pieData }
-            />
-          {/* <PieChart
-              chart_wh={componentHeight / 2.33}
-              series={[dailyMacros.protein, dailyMacros.carbs, dailyMacros.fat]}
-              sliceColor={[globalStyles.proteinColor, globalStyles.carbColor, globalStyles.fatColor]}
-            /> */}
-        </View>
+          />
       )
+
     } catch(e) {
       console.error(e);
       return (
