@@ -75,7 +75,7 @@ class AddItem extends React.Component {
                             value={String(servings)}
                             keyboardType='numeric'
                             placeholder='0'
-                            maxLength={4}
+                            maxLength={5}
                             onChangeText={(s) => this.setState({servings: s})}
                             />
                         <Text style={styles.measurement}>{Number(parseInt(servingSize * servings*10)/10) ? String(parseInt(servingSize * servings*10)/10) : '0'} {measurement}</Text>
@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
         width: 60,
         height: 40,
         textAlign: 'center',
+        color: globalStyles.fontColor
 
     },
     measurement: {

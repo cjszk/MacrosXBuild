@@ -7,7 +7,13 @@ class AdFree extends React.Component {
     render() {
         return (
         <View style={styles.main}>
-            <Text>Test</Text>
+            <Text style={styles.header}>Go Ad Free!</Text>
+            <View style={styles.descriptionContainer}>
+                <Text style={styles.description}></Text>
+            </View>
+            <TouchableOpacity>
+                <Text>Purchase now with Apple Pay!</Text>
+            </TouchableOpacity>
         </View>
         );
     }
@@ -18,6 +24,9 @@ const styles = {
         display: 'flex',
         flexDireciton: 'column',
         justifyContent: 'center',
+    },
+    header: {
+
     },
 }
 

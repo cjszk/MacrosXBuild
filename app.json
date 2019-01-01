@@ -1,4 +1,5 @@
 {
   "name": "macrosxBuild",
-  "displayName": "macrosxBuild"
+  "displayName": "macrosxBuild",
+  "orientation": "portrait"
 }

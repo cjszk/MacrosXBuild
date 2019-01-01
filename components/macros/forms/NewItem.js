@@ -33,7 +33,7 @@ class NewItem extends React.Component {
                 value={String(macroValue)}
                 style={[styles.macroInput, {borderBottomColor}]}
                 keyboardType='numeric'
-                maxLength={3}
+                maxLength={5}
                 placeholderTextColor={globalStyles.placeHolderTextColor}
                 placeholder='0'
                 onChangeText={(n) => {
@@ -108,7 +108,7 @@ class NewItem extends React.Component {
                             keyboardType='numeric'
                             placeholderTextColor={globalStyles.placeHolderTextColor}
                             placeholder='1'
-                            maxLength={4}
+                            maxLength={5}
                             onChangeText={(s) => {
                                 this.setState({servingSize: s})
                             }}

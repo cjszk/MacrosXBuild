@@ -28,7 +28,7 @@ class QuickAdd extends React.Component {
         <View style={styles.macro}>
             <Text style={[styles.macroText, {color: borderBottomColor}]}>{title}</Text>
             <TextInput
-                maxLength={3}
+                maxLength={5}
                 value={String(macroValue)}
                 style={[styles.macroInput, {borderBottomColor}]}
                 keyboardType='numeric'

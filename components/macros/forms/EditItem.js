@@ -31,7 +31,7 @@ class NewItem extends React.Component {
                 value={String(macroValue)}
                 style={[styles.macroInput, {borderBottomColor}]}
                 keyboardType='numeric'
-                maxLength={3}
+                maxLength={5}
                 onChangeText={(n) => this.setState({[key]: n})}/>
         </View>
         )
@@ -114,7 +114,7 @@ class NewItem extends React.Component {
                             style={styles.servingsNumberInput}
                             value={String(servingSize)}
                             keyboardType='numeric'
-                            maxLength={4}
+                            maxLength={5}
                             onChangeText={(s) => this.setState({servingSize: s})}
                             />
                         <TextInput

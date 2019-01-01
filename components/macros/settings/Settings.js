@@ -20,7 +20,7 @@ class Settings extends React.Component {
                     action: () => this.props.dispatch(toggleTab('trackingSettings')),
                 },
                 {
-                    name: 'Plus Membership',
+                    name: 'Go Ad-Free!',
                     tab: 'adFree',
                     action: () => this.props.dispatch(toggleTab('adFree')),
                 },

@@ -138,16 +138,16 @@ class Graph extends React.Component {
             if (!Object.keys(macroDates).includes(date)) { 
                 macroDates[date] = {
                     date: moment(item.date).format('MM/DD/YYYY'),
-                    protein: item.protein*4,
-                    carbs: item.carbs*4,
-                    fat: item.fat*9,
-                    calories: item.protein*4 + item.carbs*4 + item.fat*9
+                    protein: (item.protein*4) * item.servings,
+                    carbs: (item.carbs*4) * item.servings,
+                    fat: (item.fat*9) * item.servings,
+                    calories: (item.protein*4) * item.servings + (item.carbs*4) * item.servings + (item.fat*9) * item.servings
                 } 
             } else {
-                macroDates[date].protein += item.protein*4;
-                macroDates[date].carbs += item.carbs*4;
-                macroDates[date].fat += item.fat*9;
-                macroDates[date].calories += item.protein*4 + item.carbs*4 + item.fat*9
+                macroDates[date].protein += (item.protein*4) * item.servings;
+                macroDates[date].carbs += (item.carbs*4) * item.servings;
+                macroDates[date].fat += (item.fat*9) * item.servings;
+                macroDates[date].calories += (item.protein*4) * item.servings + (item.carbs*4) * item.servings + (item.fat*9) * item.servings
             }
         });
         const macroData = [];
@@ -186,23 +186,22 @@ class Graph extends React.Component {
             if (!Object.keys(macroDates).includes(date)) { 
                 macroDates[date] = {
                     date: moment(item.date).format('MM/DD/YYYY'),
-                    protein: item.protein*4,
-                    carbs: item.carbs*4,
-                    fat: item.fat*9,
-                    calories: item.protein*4 + item.carbs*4 + item.fat*9
+                    protein: (item.protein*4) * item.servings,
+                    carbs: (item.carbs*4) * item.servings,
+                    fat: (item.fat*9) * item.servings,
+                    calories: (item.protein*4) * item.servings + (item.carbs*4) * item.servings + (item.fat*9) * item.servings
                 } 
             } else {
-                macroDates[date].protein += item.protein*4;
-                macroDates[date].carbs += item.carbs*4;
-                macroDates[date].fat += item.fat*9;
-                macroDates[date].calories += item.protein*4 + item.carbs*4 + item.fat*9
+                macroDates[date].protein += (item.protein*4) * item.servings;
+                macroDates[date].carbs += (item.carbs*4) * item.servings;
+                macroDates[date].fat += (item.fat*9) * item.servings;
+                macroDates[date].calories += (item.protein*4) * item.servings + (item.carbs*4) * item.servings + (item.fat*9) * item.servings
             }
         });
         const macroData = [];
         Object.keys(macroDates).forEach((key) => {
             macroData.push(macroDates[key])
         });
-        const graphData = this.filterDataByDate(this.sortByDate(macroData).map(item => item.calories));
         const graphDataFat = this.filterDataByDate(this.sortByDate(macroData).map(item => item.fat/item.calories));
         const graphDataProtein = this.filterDataByDate(this.sortByDate(macroData).map(item => item.protein/item.calories));
         const graphDataCarbs = this.filterDataByDate(this.sortByDate(macroData).map(item => item.carbs/item.calories));
@@ -231,7 +230,6 @@ class Graph extends React.Component {
     }
 
     renderCaloriesVsWeightChart() {
-        const { dateMin, dateMax } = this.state;
         const { data } = this.props;
         const contentInset = {top: 10, bottom: 10}
         const macroDates = {};
@@ -318,9 +316,9 @@ class Graph extends React.Component {
                     </View>
                 </View>
                 <View style={styles.dataContainer}>
-                    {/* <ScrollView horizontal={true}> */}
+                    <ScrollView horizontal={true}>
                         {buildSliders}
-                    {/* </ScrollView> */}
+                    </ScrollView>
                 </View>
             </View>
         )
@@ -370,6 +368,8 @@ class Graph extends React.Component {
 
     renderChartInterface() {
         const { trackedItem } = this.state;
+        const { data } = this.props;
+        if (!data.tracking) return <Text>No Data to show!</Text>
         if (trackedItem === 'weight') return this.renderWeightChart();
         if (trackedItem === 'calories') return this.renderCaloriesChart();
         if (trackedItem === 'macros') return this.renderMacrosChart();
@@ -403,7 +403,7 @@ class Graph extends React.Component {
                     }>
                     <Picker.Item key="weight" label="weight" value="weight"/>
                     <Picker.Item key="calories" label="calories" value="calories"/>
-                    <Picker.Item key="macros" label="macros by %" value="macros"/>
+                    <Picker.Item key="macros" label="macros by % of calories" value="macros"/>
                     <Picker.Item key="calories vs. weight" label="calories vs. weight" value="calories vs. weight"/>
                 </Picker>
             </View>

@@ -47,8 +47,12 @@ class MainTracker extends React.Component {
 
   renderPie(dailyMacros) {
     try {
-      const data = [ dailyMacros.protein, dailyMacros.carbs, dailyMacros.fat ]
- 
+      const data = [.1, .1, .1]
+      // const data = [ dailyMacros.protein*4, dailyMacros.carbs*4, dailyMacros.fat*9 ]
+      dailyMacros.protein ? data[0] = dailyMacros.protein*4 : .1;
+      dailyMacros.carbs ? data[1] = dailyMacros.carbs*4 : .1;
+      dailyMacros.fat ? data[2] = dailyMacros.fat*9 : .1;
+
       const colors = [globalStyles.proteinColor, globalStyles.carbColor, globalStyles.fatColor,]
 
       const pieData = data

@@ -5,6 +5,7 @@ import DailyTrackerItem from './DailyTrackerItem';
 import moment from 'moment';
 import globalStyles from '../../../globalStyles';
 import { toggleTab } from '../../../actions/appState';
+import { AdMobBanner } from 'react-native-admob';
 
 class DailyTracker extends React.Component {
 
@@ -22,16 +23,34 @@ class DailyTracker extends React.Component {
     }
 
     render() {
-        const { dailyData } = this.props;
+        const { dailyData, data } = this.props;
         let renderItems = dailyData.sort((a, b) => moment(a.date).format('x') - moment(b.date).format('x')).map((item, index) => <DailyTrackerItem item={item} key={index}/>);
         if (dailyData.length === 0) renderItems = this.renderEmpty();
         return (
             <View style={styles.main}>
+
                 <ScrollView style={styles.scroll} ref={ref => this.scrollView = ref}
                 onContentSizeChange={(contentWidth, contentHeight)=>{        
                     this.scrollView.scrollToEnd({animated: true});
                 }}>
                     {renderItems}
+
+                    {!dailyData.length || data.adFree ? null :                     
+
+                        <View style={styles.advertisement}>
+                        <AdMobBanner
+                            adSize="banner"
+                            adUnitID="ca-app-pub-9750102857494675/9229198582"
+                            testDevices={[AdMobBanner.simulatorId]}
+                        />
+                        {/* <AdMobBanner
+                            // TEST AD
+                            adSize="banner"
+                            adUnitID="ca-app-pub-3940256099942544/2934735716"
+                            testDevices={[AdMobBanner.simulatorId]}
+                        /> */}
+                        </View>
+                    }
                     {dailyData.length ? <DailyTrackerItem item={null} key={null}/> : null}
                 </ScrollView>
             </View>
@@ -50,6 +69,15 @@ const styles = StyleSheet.create({
     },
     scroll: {
     
+    },
+    advertisement: {
+        borderWidth: 0.5,
+        borderColor: globalStyles.colors.four,
+        backgroundColor: 'rgba(0, 0, 0, .5)',
+        padding: '1%',
+        height: 70,
+        width: '100%',
+        alignItems: 'center',
     },
     buttonsContainer: {
         flexDirection: 'row',
@@ -73,6 +101,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         quickAdd: state.appState.quickAdd,
+        data: state.dataReducer.data,
     }
 }
 

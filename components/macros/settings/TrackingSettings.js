@@ -13,42 +13,42 @@ class TrackingSettings extends React.Component {
 
     changeTrackingSettings = async (key, status) => {
         const { data } = this.props;
-        let newData = data;
-        newData.settings.trackingSettings[key] = status;
-        
-        let newTracking = data.tracking.map(item => {
-            if (status && item.measurement === 'pounds') {
-                return {
-                    arms: parseInt(item.arms * 2.54),
-                    chest: parseInt(item.chest * 2.54),
-                    hips: parseInt(item.hips * 2.54),
-                    legs: parseInt(item.legs * 2.54),
-                    waist: parseInt(item.waist * 2.54),
-                    waistAbove: parseInt(item.waistAbove * 2.54),
-                    waistBelow: parseInt(item.waistBelow * 2.54),
-                    weight: parseInt(item.weight / 2.2),
-                    date: item.date,
-                    measurement: 'kilograms'
-                }
-            }
-            return {
-                arms: parseInt(item.arms / 2.54),
-                chest: parseInt(item.chest / 2.54),
-                hips: parseInt(item.hips / 2.54),
-                legs: parseInt(item.legs / 2.54),
-                waist: parseInt(item.waist / 2.54),
-                waistAbove: parseInt(item.waistAbove / 2.54),
-                waistBelow: parseInt(item.waistBelow / 2.54),
-                weight: parseInt(item.weight * 2.2),
-                date: item.date,
-                measurement: 'pounds'
-            }
-        });
-
-        newData.tracking = newTracking;
-
         try {
-          await AsyncStorage.setItem('data', JSON.stringify(newData));
+            let newData = data;
+            newData.settings.trackingSettings[key] = status;
+            let newTracking = data.tracking.map(item => {
+                if (status && item.measurement === 'pounds') {
+                    return {
+                        arms: (item.arms * 2.54),
+                        chest: (item.chest * 2.54),
+                        hips: (item.hips * 2.54),
+                        legs: (item.legs * 2.54),
+                        waist: (item.waist * 2.54),
+                        waistAbove: (item.waistAbove * 2.54),
+                        waistBelow: (item.waistBelow * 2.54),
+                        weight: (item.weight / 2.2),
+                        date: item.date,
+                        measurement: 'kilograms'
+                    }
+                }
+                else if (!status && item.measurement === 'kilograms') {
+                    return {
+                        arms: (item.arms / 2.54),
+                        chest: (item.chest / 2.54),
+                        hips: (item.hips / 2.54),
+                        legs: (item.legs / 2.54),
+                        waist: (item.waist / 2.54),
+                        waistAbove: (item.waistAbove / 2.54),
+                        waistBelow: (item.waistBelow / 2.54),
+                        weight: (item.weight * 2.2),
+                        date: item.date,
+                        measurement: 'pounds'
+                    }
+                }
+                return item;
+            });
+            newData.tracking = newTracking;
+            await AsyncStorage.setItem('data', JSON.stringify(newData));
         } catch (error) {
           console.error(error);
         }
@@ -59,7 +59,7 @@ class TrackingSettings extends React.Component {
         let status = false;
         if (trackingSettings[key]) status = true;
         return (
-        <View style={[styles.optionContainer, status ? {backgroundColor: globalStyles.colors.five} : {backgroundColor: globalStyles.colors.four}]}>
+        <View style={[styles.optionContainer, status ? {backgroundColor: globalStyles.colors.five} : {backgroundColor: 'rgba(0,0,0,.3)'}]}>
             <TouchableOpacity style={styles.optionButton} onPress={() => {
                 this.changeTrackingSettings(key, !status)
                 this.setState({refreshed: true})
@@ -76,7 +76,7 @@ class TrackingSettings extends React.Component {
         let kilograms = false;
         if (trackingSettings.trackByKg) kilograms = true;
         return (
-            <View style={[styles.optionContainer, kilograms ? {backgroundColor: globalStyles.colors.five} : {backgroundColor: globalStyles.colors.three}]}>
+            <View style={[styles.optionContainer, kilograms ? {backgroundColor: globalStyles.colors.four} : {backgroundColor: globalStyles.colors.four}]}>
                 <TouchableOpacity style={styles.optionButton} onPress={() => {
                     this.changeTrackingSettings('trackByKg', !kilograms)
                     this.setState({refreshed: true})
@@ -105,7 +105,8 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        height: '80%'
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, .5)',
     },
     optionContainer: {
         display: 'flex',
@@ -115,6 +116,9 @@ const styles = {
         height: '10%',
         marginTop: '2.5%',
         marginBottom: '2.5%',
+        borderRadius: 4,
+        borderWidth: 0.5,
+        borderColor: globalStyles.color,
     },
     optionButton: {
         justifyContent: 'space-between',
@@ -122,15 +126,22 @@ const styles = {
         marginLeft: 'auto',
         marginRight: 'auto',
         width: '100%',
+        paddingRight: '5%',
+        paddingLeft: '5%',
     },
     optionDesc: {
         textAlign: 'center',
+        alignSelf: 'center',
         fontSize: 18,
-        
+        color: globalStyles.fontColor,
+        width: '60%'
     },
     optionStatus: {
         textAlign: 'center',
+        alignSelf: 'center',
         fontSize: 18,
+        color: globalStyles.fontColor,
+        width: '30%',
     }
 }
 

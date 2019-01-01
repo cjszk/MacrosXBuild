@@ -3,13 +3,17 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import MacrosHome from './macros/home/Home';
 import WorkoutsHome from './workouts/home/Home';
-import Onboard from './Onboard';
+import Onboard from './onboarding/Onboard';
+import OnboardGoals from './onboarding/OnboardGoals';
+import OnboardingHelp from './onboarding/OnboardingHelp';
 
 class HomeSwitch extends React.Component {
 
 
     render() {
-        const { mode, data } = this.props;
+        const { mode, data, tab } = this.props;
+        if (tab === 'onboardingGoals') return <View><OnboardGoals/></View>
+        if (tab === 'onboardingHelp') return <View><OnboardingHelp/></View>
         if (!data) return <View><Onboard/></View>;
         let home = <MacrosHome/>;
         if (mode === 'workouts') home = <WorkoutsHome/>

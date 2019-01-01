@@ -118,7 +118,7 @@ class AddItem extends React.Component {
                             keyboardType='numeric'
                             placeholder='0'
                             placeholderTextColor={globalStyles.placeHolderTextColor}
-                            maxLength={4}
+                            maxLength={5}
                             onChangeText={(s) => this.setState({servings: s})}
                         />
                         <Text style={styles.measurement}>{Number(parseInt(renderServingSize*10)/10) ? String(parseInt(renderServingSize*10)/10) : '0'} {measurement.split('-').join(' ')}</Text>

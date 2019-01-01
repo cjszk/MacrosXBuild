@@ -17,6 +17,7 @@ export default function appStateReducer(state=initialState, action) {
 } 
 
 const testData = {
+    adFree: false,
     tracking: [
         ],
     settings: {

@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Text, View, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import moment from 'moment';
+import { AdMobBanner } from 'react-native-admob';
 import globalStyles from '../../../globalStyles';
 import LibraryItem from './LibraryItem';
 import USDAItem from './usdaItem';
@@ -99,18 +100,45 @@ class Library extends React.Component {
 
     renderSearchItems() {
         const items = this.state.apiSearchItemsInfo;
+        const { data } = this.props;
         if (!items || items.length === 0) {
             return <View/>;
         };
-        return items.filter((item) => item.food.nutrients[0].measures.length !== 0).map((item, index) => {
+        const results = items.filter((item) => item.food.nutrients[0].measures.length !== 0).map((item, index) => {
             return (
                 <USDAItem key={index} item={item.food} />
             );
         });
+        if (!data.adFree) {
+            results.forEach((item, index) => {
+                if (index % 10 === 0 && index !== 0) {
+                    results.splice(index, 0, 
+                        (<View style={styles.advertisement} key={'ad-' + index}>
+                            <AdMobBanner
+                                adSize="banner"
+                                adUnitID="ca-app-pub-9750102857494675/9229198582"
+                                testDevices={[AdMobBanner.simulatorId]}
+                            />
+                        </View>)
+                        )
+                }
+            })
+            // results.push(
+            // <View style={styles.advertisement}>
+            //     <AdMobBanner
+            //         // TEST AD
+            //         adSize="banner"
+            //         adUnitID="ca-app-pub-3940256099942544/2934735716"
+            //         testDevices={[AdMobBanner.simulatorId]}
+            //     />
+            // </View>
+            // )
+        }
+        return results;
     }
     
     render() {
-        const { library } = this.props;
+        const { library, data } = this.props;
         const { searchQuery, failedSearch, loading } = this.state;
         const filteredItems = library.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase())).sort((a, b) => moment(a.date).format('x') > moment(b.date).format('x'));
         const listItems = filteredItems.map((item, index) => <LibraryItem key={index} item={item}/>);
@@ -133,6 +161,15 @@ class Library extends React.Component {
                             }
                         }}
                           scrollEventThrottle={400}>
+                        {data.adFree ? null :                     
+                            <View style={styles.advertisement}>
+                                <AdMobBanner
+                                    adSize="banner"
+                                    adUnitID="ca-app-pub-9750102857494675/5072085869 "
+                                    testDevices={[AdMobBanner.simulatorId]}
+                                />
+                            </View>
+                        }
                         {listItems}
                         {failedSearch ? <Text style={styles.loading}>No search results!</Text> : this.renderSearchItems()}
                         {renderLoading}
@@ -174,6 +211,15 @@ const styles = {
     list: {
         height: '62.5%'
     },
+    advertisement: {
+        borderWidth: 0.5,
+        borderColor: globalStyles.colors.four,
+        backgroundColor: 'rgba(0, 0, 0, .5)',
+        padding: '1%',
+        height: 70,
+        width: '100%',
+        alignItems: 'center',
+    },
     loading: {
         // position: 'absolute',
         // bottom: 500,
@@ -188,7 +234,8 @@ const styles = {
 const mapStateToProps = state => {
     return {
         quickAdd: state.appState.quickAdd,
-        library: state.dataReducer.data.library
+        library: state.dataReducer.data.library,
+        data: state.dataReducer.data,
     }
 }
 

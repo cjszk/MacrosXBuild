@@ -2,15 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { AsyncStorage, View, TouchableOpacity, Text, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { toggleTab } from '../actions/appState';
-import { saveData } from '../actions/data';
+import { toggleTab } from '../../actions/appState';
+import { saveData } from '../../actions/data';
 import moment from 'moment';
 
-class Goals extends React.Component {
+class OnboardGoals extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected: 'By Macros',
+            selectedMeasurement: 'lbs',
             protein: 0,
             carbs: 0,
             fat: 0,
@@ -21,29 +21,18 @@ class Goals extends React.Component {
         }
     }
 
-    renderButtons() {
-        if (this.state.selected === 'By Macros') {
-            return (
-                <View style={styles.buttonView}>
-                    <TouchableOpacity style={[styles.button, styles.selected]}>
-                        <Text style={styles.buttonText}>By Macros</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={() => this.setState({selected: 'By Calories'})}>
-                        <Text style={styles.buttonText}>By % of Calories</Text>
-                    </TouchableOpacity>
-                </View>
-            );
-        }
+    renderKgLbs() {
+        const { selectedMeasurement } = this.state;
         return (
-            <View style={styles.buttonView}>
-                <TouchableOpacity style={styles.button} onPress={() => this.setState({selected: 'By Macros'})}>
-                    <Text style={styles.buttonText}>By Macros</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.selected]}>
-                    <Text style={styles.buttonText}>By % of Calories</Text>
-                </TouchableOpacity>
-            </View>
-        );
+        <View style={styles.buttonView}>
+            <TouchableOpacity style={selectedMeasurement === 'lbs' ? [styles.button, styles.selected] : styles.button }onPress={() => this.setState({selectedMeasurement: 'lbs'})}>
+                <Text style={styles.buttonText}>lbs/inches</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={selectedMeasurement === 'kg' ? [styles.button, styles.selected] : styles.button} onPress={() => this.setState({selectedMeasurement: 'kg'})}>
+                <Text style={styles.buttonText}>kg/cm</Text>
+            </TouchableOpacity>
+        </View>
+        )
     }
 
     renderNutrientByInt(key) {
@@ -56,7 +45,7 @@ class Goals extends React.Component {
                 value={String(macroValue)}
                 style={styles.macroInput}
                 keyboardType='numeric'
-                maxLength={3}
+                maxLength={5}
                 onChangeText={(n) => {
                     if (!n.length) this.setState({[key]: 0})
                     else this.setState({[key]: parseInt(n)})
@@ -75,7 +64,7 @@ class Goals extends React.Component {
                 value={String(macroValue)}
                 style={styles.macroInput}
                 keyboardType='numeric'
-                maxLength={3}
+                maxLength={5}
                 onChangeText={(n) => {
                     if (!n.length) this.setState({[key]: 0})
                     else if (n > 100) this.setState({[key]: 100})
@@ -103,46 +92,15 @@ class Goals extends React.Component {
         );
     }
 
-    renderByCalories() {
-        const { proteinP, carbsP, fatP, calories } = this.state;
-        const protein = Math.round((calories * (proteinP / 100)) / 4);
-        const carbs = Math.round((calories * (carbsP / 100)) / 4);
-        const fat = Math.round((calories * (fatP / 100)) / 9);
-        return (
-            <View style={styles.menu}>
-                <View style={styles.caloriesRow}>
-                    <View style={styles.calories}>
-                        <Text style={styles.caloriesText}>Calories</Text>
-                        <TextInput
-                            value={String(calories)}
-                            style={styles.caloriesInput}
-                            keyboardType='numeric'
-                            maxLength={4}
-                            onChangeText={(n) => {
-                                if (!n.length) this.setState({calories: 0})
-                                else this.setState({calories: parseInt(n)})
-                            }}/>
-                    </View>
-                </View>
-                <View style={styles.macroRow}>
-                    {this.renderNutrientByPercent('proteinP', protein)}
-                    {this.renderNutrientByPercent('carbsP', carbs)}
-                    {this.renderNutrientByPercent('fatP', fat)}
-                </View>
-                <View style={styles.showPercentView}>
-                    <Text style={styles.showPercentText}>{proteinP + carbsP + fatP}%</Text>
-                </View>
-            </View>
-        );
-    }
-
     handleSubmit = async () => {
-        const { selected } = this.state;
+        const { selectedMeasurement } = this.state;
         let data = {
+            adFree: false,
             settings: {
                 trackingSettings: {
                     trackFiber: false,
                     trackSugar: false,
+                    trackByKg: selectedMeasurement === 'lbs' ? false : true
                 }
             },
             tracking: [],
@@ -187,44 +145,26 @@ class Goals extends React.Component {
             ],
             goals: [],
         }
-        if (selected === 'By Macros') {
-            const { protein, carbs, fat } = this.state;
-            let calories = (protein * 4) + (carbs * 4) + (fat * 9);
-            const newGoals = { protein, carbs, fat, calories };
-            let newData = data;
-            newData.goals = newGoals;
-            try {
-              await AsyncStorage.setItem('data', JSON.stringify(newData)).then(() => this.props.dispatch(saveData(newData)));
-              this.props.dispatch(toggleTab('home'))
-            } catch (error) {
-              console.error(error);
-            }
-        } else {
-            const { proteinP, carbsP, fatP, calories } = this.state;
-            if (proteinP + carbsP + fatP !== 100) return alert('When using percentages of calories, please make sure that Protein, Carbs and Fats add up to 100%. If you are looking to add macros by grams, select By Macros')
-            const protein = Math.round((calories * (proteinP / 100)) / 4);
-            const carbs = Math.round((calories * (carbsP / 100)) / 4);
-            const fat = Math.round((calories * (fatP / 100)) / 9);
-            const newGoals = { protein, carbs, fat, calories };
-            let newData = data;
-            newData.goals = newGoals;
-            try {
-              await AsyncStorage.setItem('data', JSON.stringify(newData)).then(() => this.props.dispatch(saveData(newData)));
-              this.props.dispatch(toggleTab('home'))
-            } catch (error) {
-              console.error(error);
-            }
+        const { protein, carbs, fat } = this.state;
+        let calories = (protein * 4) + (carbs * 4) + (fat * 9);
+        const newGoals = { protein, carbs, fat, calories };
+        let newData = data;
+        newData.goals = newGoals;
+        try {
+            await AsyncStorage.setItem('data', JSON.stringify(newData)).then(() => this.props.dispatch(saveData(newData)));
+            this.props.dispatch(toggleTab('home'))
+        } catch (error) {
+            console.error(error);
         }
     }
 
     render() {
         let renderMenu = this.renderByMacros();
-        if (this.state.selected === 'By Calories') renderMenu = this.renderByCalories();
         return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <KeyboardAwareScrollView extraScrollHeight={100} style={styles.main}>
-                <Text style={styles.header}>Set Goals</Text>
-                {this.renderButtons()}
+                <Text style={styles.header}>Initial Settings</Text>
+                {this.renderKgLbs()}
                 {renderMenu}
                 <TouchableOpacity style={styles.submit} onPress={() => this.handleSubmit()}>
                     <Text style={styles.submitText}>Let's get Started!</Text>
@@ -253,6 +193,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-around',
+        marginTop: '1%',
     },
     button: {
         borderRadius: 4,
@@ -294,13 +235,10 @@ const styles = {
     macroText: {
         alignSelf: 'center',
         color: globalStyles.fontColor,
-        marginTop: '5%',
     },
     macroInput: {
         borderBottomColor: globalStyles.colors.four,
         borderBottomWidth: 2,
-        marginBottom: 30,
-        marginTop: 10,
         width: 60,
         height: 40,
         color: globalStyles.fontColor,
@@ -361,4 +299,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(Goals);
+export default connect(mapStateToProps)(OnboardGoals);

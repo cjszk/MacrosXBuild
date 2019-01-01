@@ -90,7 +90,7 @@ class AddItem extends React.Component {
                             autoFocus={true}
                             style={styles.servingsNumberInput}
                             value={String(servings)}
-                            maxLength={4}
+                            maxLength={5}
                             keyboardType='numeric'
                             onChangeText={(s) => this.setState({servings: s})}
                             />

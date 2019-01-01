@@ -54,7 +54,7 @@ class Goals extends React.Component {
                 value={String(macroValue)}
                 style={styles.macroInput}
                 keyboardType='numeric'
-                maxLength={3}
+                maxLength={5}
                 onChangeText={(n) => {
                     if (!n.length) this.setState({[key]: 0})
                     else this.setState({[key]: parseInt(n)})
@@ -73,7 +73,7 @@ class Goals extends React.Component {
                 value={String(macroValue)}
                 style={styles.macroInput}
                 keyboardType='numeric'
-                maxLength={3}
+                maxLength={5}
                 onChangeText={(n) => {
                     if (!n.length) this.setState({[key]: 0})
                     else if (n > 100) this.setState({[key]: 100})
@@ -116,7 +116,7 @@ class Goals extends React.Component {
                             value={String(calories)}
                             style={styles.caloriesInput}
                             keyboardType='numeric'
-                            maxLength={4}
+                            maxLength={5}
                             onChangeText={(n) => {
                                 if (!n.length) this.setState({calories: 0})
                                 else this.setState({calories: parseInt(n)})

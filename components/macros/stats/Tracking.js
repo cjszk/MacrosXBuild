@@ -113,8 +113,8 @@ class Tracking extends React.Component {
                 <Text style={styles.label}>{desc}</Text>
                 <TextInput
                     autoFocus={true}
-                    value={parseInt(value) ? String(parseInt(value)) : '0'}
-                    maxLength={4}
+                    value={parseInt(value*10)/10 ? String(parseInt(value*10)/10) : '0'}
+                    maxLength={5}
                     keyboardType='numeric'
                     style={styles.textInput}
                     onChangeText={(e) => this.setState({[key]: parseInt(e*10)/10})}
