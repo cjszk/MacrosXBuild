@@ -51,7 +51,7 @@ class Header extends React.Component {
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this._showDateTimePicker()}>
-            <Text style={styles.dateText}>{renderDate}</Text>
+            <Text style={renderDate === 'Today' ? styles.dateText : [styles.dateText, {color: globalStyles.fontColor}]}>{renderDate}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={() => this.incrementDate()}>
             <Icon

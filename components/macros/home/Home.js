@@ -15,10 +15,14 @@ import Settings from '../settings/Settings';
 import Stats from '../stats/Stats';
 import Goals from '../settings/Goals';
 import AdFree from '../settings/AdFree';
-import { setNewDay } from '../../../actions/appState';
+import { setNewDay, toggleTab } from '../../../actions/appState';
 import TrackingSettings from '../settings/TrackingSettings';
 import Tracking from '../stats/Tracking';
 import Graph from '../stats/Graph';
+import AdSeen from '../settings/AdSeen';
+import DevNotes from '../settings/DevNotes';
+import globalStyles from '../../../globalStyles';
+import RenewAdFree from './RenewAdFree';
 
 class Home extends React.Component {
 
@@ -56,14 +60,19 @@ class Home extends React.Component {
             case 'stats': return <View style={styles.main}><Stats/></View>;
             case 'goals': return <View style={styles.main}><Goals/></View>;
             case 'adFree': return <View style={styles.main}><AdFree/></View>;
+            case 'adSeen': return <View style={styles.main}><AdSeen/></View>;
+            case 'devNotes': return <View style={styles.main}><DevNotes/></View>;
             case 'trackingSettings': return <View style={styles.main}><TrackingSettings/></View>;
             case 'tracking': return <View style={styles.main}><Tracking/></View>;
             case 'graphs': return <View style={styles.main}><Graph/></View>;
+            case 'renewAdFree': return <View style={styles.main}><RenewAdFree/></View>;
           }
     }
 
     render() {
         if (this.props.tab !== 'home') return this.handleTabMacros();
+        const { data } = this.props;
+        if (data.adFree && moment(data.adFree).format('x') < moment().format('x')) this.props.dispatch(toggleTab('renewAdFree'));
         const dailyData = this.getCurrentDayData();
         return (
         <View style={styles.main}>
@@ -78,7 +87,8 @@ const styles = {
     main: {
         height: '100%',
         justifyContent: 'flex-start',
-    }
+    },
+
 }
 
 const mapStateToProps = state => {

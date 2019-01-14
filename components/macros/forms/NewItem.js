@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { AsyncStorage, Text, View, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { toggleTab } from '../../../actions/appState';
+import { addItem } from '../../../actions/appState';
 import globalStyles from '../../../globalStyles';
 
 class NewItem extends React.Component {
@@ -63,7 +63,7 @@ class NewItem extends React.Component {
         newData.library = newEntries;
         try {
           await AsyncStorage.setItem('data', JSON.stringify(newData));
-          this.props.dispatch(toggleTab('library'))
+          this.props.dispatch(addItem(newEntry))
         } catch (error) {
           console.error(error);
         }

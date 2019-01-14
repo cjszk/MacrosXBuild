@@ -22,8 +22,8 @@ const testData = {
         ],
     settings: {
         trackingSettings: {
-            trackFiber: false,
-            trackSugar: false,
+            trackFiber: true,
+            trackSugar: true,
         }
     },
     goals: {

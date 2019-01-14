@@ -9,6 +9,7 @@ class LibraryItem extends React.Component {
 
     render() {
         const { item } = this.props;
+        
         return (
             <View key={item.date} style={styles.main}>
                 <View style={styles.name}>

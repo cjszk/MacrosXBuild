@@ -98,8 +98,8 @@ class OnboardGoals extends React.Component {
             adFree: false,
             settings: {
                 trackingSettings: {
-                    trackFiber: false,
-                    trackSugar: false,
+                    trackFiber: true,
+                    trackSugar: true,
                     trackByKg: selectedMeasurement === 'lbs' ? false : true
                 }
             },

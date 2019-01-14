@@ -24,6 +24,7 @@ class DailyTracker extends React.Component {
 
     render() {
         const { dailyData, data } = this.props;
+        if (data.adFree) console.log(moment(data.adFree).format('x'), moment().format('x'))
         let renderItems = dailyData.sort((a, b) => moment(a.date).format('x') - moment(b.date).format('x')).map((item, index) => <DailyTrackerItem item={item} key={index}/>);
         if (dailyData.length === 0) renderItems = this.renderEmpty();
         return (
@@ -35,20 +36,13 @@ class DailyTracker extends React.Component {
                 }}>
                     {renderItems}
 
-                    {!dailyData.length || data.adFree ? null :                     
-
+                    {!dailyData.length || moment(data.adFree).format('x') > moment().format('x') ? null :                     
                         <View style={styles.advertisement}>
                         <AdMobBanner
                             adSize="banner"
                             adUnitID="ca-app-pub-9750102857494675/9229198582"
                             testDevices={[AdMobBanner.simulatorId]}
                         />
-                        {/* <AdMobBanner
-                            // TEST AD
-                            adSize="banner"
-                            adUnitID="ca-app-pub-3940256099942544/2934735716"
-                            testDevices={[AdMobBanner.simulatorId]}
-                        /> */}
                         </View>
                     }
                     {dailyData.length ? <DailyTrackerItem item={null} key={null}/> : null}

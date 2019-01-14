@@ -109,7 +109,7 @@ class Library extends React.Component {
                 <USDAItem key={index} item={item.food} />
             );
         });
-        if (!data.adFree) {
+        if (!moment(data.adFree).format('x') > moment().format('x')) {
             results.forEach((item, index) => {
                 if (index % 10 === 0 && index !== 0) {
                     results.splice(index, 0, 
@@ -123,16 +123,6 @@ class Library extends React.Component {
                         )
                 }
             })
-            // results.push(
-            // <View style={styles.advertisement}>
-            //     <AdMobBanner
-            //         // TEST AD
-            //         adSize="banner"
-            //         adUnitID="ca-app-pub-3940256099942544/2934735716"
-            //         testDevices={[AdMobBanner.simulatorId]}
-            //     />
-            // </View>
-            // )
         }
         return results;
     }
@@ -140,7 +130,7 @@ class Library extends React.Component {
     render() {
         const { library, data } = this.props;
         const { searchQuery, failedSearch, loading } = this.state;
-        const filteredItems = library.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase())).sort((a, b) => moment(a.date).format('x') > moment(b.date).format('x'));
+        const filteredItems = library.filter((item) => item.name.toLowerCase().includes(searchQuery.toLowerCase())).sort((a, b) => moment(a.date).format('x') < moment(b.date).format('x'));
         const listItems = filteredItems.map((item, index) => <LibraryItem key={index} item={item}/>);
         let renderLoading;
         if (loading) renderLoading = <Text style={styles.loading}>Loading Search Results from USDA API...</Text>
@@ -161,11 +151,11 @@ class Library extends React.Component {
                             }
                         }}
                           scrollEventThrottle={400}>
-                        {data.adFree ? null :                     
+                        {moment(data.adFree).format('x') > moment().format('x') ? null :                     
                             <View style={styles.advertisement}>
                                 <AdMobBanner
                                     adSize="banner"
-                                    adUnitID="ca-app-pub-9750102857494675/5072085869 "
+                                    adUnitID="ca-app-pub-9750102857494675/5072085869"
                                     testDevices={[AdMobBanner.simulatorId]}
                                 />
                             </View>
@@ -209,7 +199,7 @@ const styles = {
         color: globalStyles.fontColor
     },
     list: {
-        height: '62.5%'
+        height: '62.5%',
     },
     advertisement: {
         borderWidth: 0.5,
@@ -227,7 +217,7 @@ const styles = {
         // right: '50%',
         textAlign: 'center',
         height: 200,
-        width: '100%'
+        width: '100%',
     }
 }
 

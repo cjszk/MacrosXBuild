@@ -30,6 +30,8 @@ class Graph extends React.Component {
     filterDataByDate(data) {
         const { dateMin, dateMax } = this.state;
         return data.filter(item => {
+            console.log(moment(item.date).diff(dateMin, 'days'));
+            console.log(moment(item.date).diff(dateMax, 'days'))
             if (moment(item.date).diff(dateMin, 'days') >= 0 && moment(item.date).diff(dateMax, 'days') <= 0) return item;
         });
     }
@@ -103,11 +105,11 @@ class Graph extends React.Component {
     }
 
     renderWeightChart() {
-        const { dateMin, dateMax } = this.state;
         const { data } = this.props;
         const contentInset = {top: 10, bottom: 10}
-        const graphData = this.filterDataByDate(this.sortByDate(data.tracking).map(item => item.weight));
+        const graphData = this.filterDataByDate(this.sortByDate(data.tracking)).map(item => item.weight);
         const sliderData = this.filterDataByDate(this.sortByDate(data.tracking).map(item => ({ weight: item.weight, date: item.date })));
+        
         const chart = (
         <View style={styles.chartContainer}>
             {this.renderChartArea(graphData, 'rgba(92, 203, 133, .3)', 'rgba(92, 203, 133, 1)')}
@@ -129,7 +131,6 @@ class Graph extends React.Component {
     }
 
     renderCaloriesChart() {
-        const { dateMin, dateMax } = this.state;
         const { data } = this.props;
         const contentInset = {top: 10, bottom: 10}
         const macroDates = {};
@@ -154,7 +155,7 @@ class Graph extends React.Component {
         Object.keys(macroDates).forEach((key) => {
             macroData.push(macroDates[key])
         });
-        const graphData = this.filterDataByDate(this.sortByDate(macroData).map(item => item.calories));
+        const graphData = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.calories);
         const sliderData = this.filterDataByDate(this.sortByDate(macroData).map(item => ({ calories: item.calories, date: item.date })));    
         const chart = (
         <View style={styles.chartContainer}>
@@ -177,7 +178,6 @@ class Graph extends React.Component {
     }
 
     renderMacrosChart() {
-        const { dateMin, dateMax } = this.state;
         const { data } = this.props;
         const contentInset = {top: 10, bottom: 10}
         const macroDates = {};
@@ -202,10 +202,10 @@ class Graph extends React.Component {
         Object.keys(macroDates).forEach((key) => {
             macroData.push(macroDates[key])
         });
-        const graphDataFat = this.filterDataByDate(this.sortByDate(macroData).map(item => item.fat/item.calories));
-        const graphDataProtein = this.filterDataByDate(this.sortByDate(macroData).map(item => item.protein/item.calories));
-        const graphDataCarbs = this.filterDataByDate(this.sortByDate(macroData).map(item => item.carbs/item.calories));
-        const sliderData = this.filterDataByDate(this.sortByDate(macroData).map(item => ({ fat: item.fat, protein: item.protein, carbs: item.carbs, date: item.date })));  
+        const graphDataFat = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.fat/item.calories);
+        const graphDataProtein = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.protein/item.calories);
+        const graphDataCarbs = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.carbs/item.calories);
+        const sliderData = this.filterDataByDate(this.sortByDate(macroData)).map(item => ({ fat: item.fat, protein: item.protein, carbs: item.carbs, date: item.date }));  
         const chart = (
             <View style={styles.chartContainer}>
                 {this.renderChartArea(graphDataFat, 'rgba(237, 245, 97, .3)', 'rgba(237, 245, 97, 1)', 'macro', 'extra')}
@@ -254,9 +254,9 @@ class Graph extends React.Component {
         Object.keys(macroDates).forEach((key) => {
             macroData.push(macroDates[key])
         });
-        const graphDataWeight = this.filterDataByDate(this.sortByDate(data.tracking).map(item => item.weight));
-        const graphDataCalories = this.filterDataByDate(this.sortByDate(macroData).map(item => item.calories));
-        const sliderData = this.filterDataByDate(this.sortByDate(data.tracking).map(item => ({ weight: item.weight, date: item.date })));
+        const graphDataWeight = this.filterDataByDate(this.sortByDate(data.tracking)).map(item => item.weight);
+        const graphDataCalories = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.calories);
+        const sliderData = this.filterDataByDate(this.sortByDate(data.tracking)).map(item => ({ weight: item.weight, date: item.date }));
         const chart = (
             <View style={styles.chartContainer}>
                 {this.renderChartArea(graphDataWeight, 'rgba(92, 203, 133, .3)', 'rgba(92, 203, 133, 1)')}
@@ -281,7 +281,6 @@ class Graph extends React.Component {
     renderMacroChart(chart, sliderData) {
         const { dateMin, dateMax, trackIndex, trackedItem } = this.state;
         const selectedStyles = {backgroundColor: 'rgba(255,255,255,.5)'}
-        const label = this.props.data.settings.trackingSettings.trackByKg ? 'kg' : 'lbs';
         const buildSliders = sliderData.map((item, index) => (
             <TouchableOpacity onPress={() => this.setState({trackIndex: index})} key={item.date} style={trackIndex === index ? [styles.singleDataContainer, selectedStyles] : styles.singleDataContainer}>
                 <Text style={styles.dataDate}>{item.date}</Text>

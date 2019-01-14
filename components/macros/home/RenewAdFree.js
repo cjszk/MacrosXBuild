@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { AsyncStorage, View, TouchableOpacity, Text } from 'react-native';
 import { AdMobRewarded } from 'react-native-admob';
 import { toggleTab } from '../../../actions/appState';
 
-class AdFree extends React.Component {
+class RenewAdFree extends React.Component {
 
     componentDidMount() {
         AdMobRewarded.addEventListener('rewarded',
@@ -27,17 +27,32 @@ class AdFree extends React.Component {
             .catch(err => console.error(err));
     }
 
+    setFalseAdFree = async () => {
+        const { data } = this.props;
+        let newData = data;
+        newData.adFree = false;
+        try {
+            await AsyncStorage.setItem('data', JSON.stringify(newData)).then(() => {
+                this.props.dispatch(toggleTab('home'));
+            });
+          } catch (error) {
+            console.error(error);
+          }
+    }
+
     render() {
         return (
         <View style={styles.main}>
-            <Text style={styles.header}>Go Ad Free!</Text>
-            <View style={styles.descriptionContainer}>
-                <Text style={styles.description}>Go ad free for <Text style={styles.bold}>two days</Text> by watching a single advertisement video!</Text>
-                <Text style={styles.description}>Alternatively, there will be monthly subscriptions set up in a future version.</Text>
+            <Text style={[styles.text, {marginTop: '10%'}]}>Looks like your ad-free time has run out!</Text>
+            <Text style={styles.text}>You may watch another video advertisement to renew your time.</Text>
+            <View style={styles.buttonView}>
+                <TouchableOpacity style={styles.button} onPress={this.showRewarded}>
+                    <Text style={styles.buttonText}>Watch Ad</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonSecondary} onPress={this.setFalseAdFree}>
+                    <Text style={styles.buttonText}>Later</Text>
+                </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.button} onPress={this.showRewarded}>
-                <Text style={styles.buttonText}>Watch Ad</Text>
-            </TouchableOpacity>
         </View>
         );
     }
@@ -50,26 +65,27 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
     },
-    header: {
-        textAlign: 'center',
-        fontSize: 32,
-        color: globalStyles.fontColor,
-        marginTop: '5%',
-        marginBottom: '5%',
-    },
-    description: {
-        color: globalStyles.fontColor,
+    text: {
         marginLeft: '5%',
         marginRight: '5%',
         marginTop: '5%',
+        fontSize: 18,
+        color: globalStyles.fontColor
     },
-    bold: {
-        fontWeight: 'bold',
-        color: globalStyles.colors.five
+    buttonView: {
+        marginTop: '20%',
     },
     button: {
         alignSelf: 'center',
         backgroundColor: globalStyles.buttonColor,
+        width: '75%',
+        padding: 10,
+        marginTop: 20,
+        marginBottom: 20,
+    },
+    buttonSecondary: {
+        alignSelf: 'center',
+        backgroundColor: globalStyles.colors.four,
         width: '75%',
         padding: 10,
         marginTop: 20,
@@ -90,4 +106,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(AdFree);
+export default connect(mapStateToProps)(RenewAdFree);
