@@ -25,7 +25,7 @@ class Graph extends React.Component {
 
     sortByDate(data) {
         return data.sort((a, b) => moment(a.date).format('x') - moment(b.date).format('x'));
-    }
+    };
 
     filterDataByDate(data) {
         const { dateMin, dateMax } = this.state;
