@@ -30,7 +30,6 @@ class Graph extends React.Component {
     filterDataByDate(data) {
         const { dateMin, dateMax } = this.state;
         return data.filter(item => {
-            console.log(moment(item.date).diff(dateMin, 'days'));
             console.log(moment(item.date).diff(dateMax, 'days'))
             if (moment(item.date).diff(dateMin, 'days') >= 0 && moment(item.date).diff(dateMax, 'days') <= 0) return item;
         });
@@ -44,6 +43,7 @@ class Graph extends React.Component {
 
     _handleDatePicked = (date) => {
         const { dateTarget, dateMin, dateMax } = this.state;
+
         if (dateTarget === 'min') {
             if (moment(date).format('x') >= moment(dateMax).format('x')) this.setState({dateMin: moment(date).format(), dateMax: moment(date).add(1, 'days').format(), dateTarget: null});
             else this.setState({dateMin: moment(date).format(), dateTarget: null})
@@ -67,18 +67,70 @@ class Graph extends React.Component {
 
     renderChartArea(graphData, color, lineColor, macro=false, extra=false) {
         const { trackIndex } = this.state;
+        const data = [];
+        const validIndexes = [];
+        let found = false;
+        let index = 0;
+        while (!found && index < graphData.length) {
+            if (graphData[index]) found = true;
+            else index++;
+        }
+        let min;
+        let validIndex = 0;
+        for (let i=index; i<graphData.length; i++) {
+            if (graphData[i]) {
+                if (!min) {
+                    data.push(graphData[i]);
+                    validIndexes.push(validIndex);
+                    validIndex++;
+                } else {
+                    let max;
+                    found = false;
+                    index = i;
+                    while (!found) {
+                        if (graphData[index]) {
+                            found = true;
+                            max = index;
+                        }
+                        else if (index > graphData.length) break;
+                        else index++;
+                    }
+                    index = min+1;
+                    while (index < max) {
+                        const difference = graphData[max] - graphData[min];
+                        const increment = difference / (max-min) ;
+                        data.push(graphData[min] + (increment * (index-min)));
+                        validIndex++;
+                        index++;
+                    }
+                    min = null;
+                    max = null;
+                    data.push(graphData[i]);
+                    validIndexes.push(validIndex);
+                    validIndex++;
+                }
+            }
+            else if (!min) min = i-1;
+        }
         const Decorator = ({ x, y, data }) => {
-            return data.map((value, index) => (
-                <Circle
-                    onPress={() => this.setState({trackIndex: index})}
-                    key={ index }
-                    cx={ x(index) }
-                    cy={ y(value) }
-                    r={ 4 }
-                    stroke={ color }
-                    fill={ trackIndex === index ? 'white': color }
-                />
-            ))
+            let i = -1;
+            return data.map((value, index) => {
+                if (validIndexes.includes(index)) {
+                    i++;
+                    return (
+                        <Circle
+                            onPress={() => this.setState({trackIndex: index})}
+                            key={ i }
+                            cx={ x(index) }
+                            cy={ y(value) }
+                            r={ 4 }
+                            stroke={ color }
+                            fill={ trackIndex === i ? 'white': color }
+                        />
+                    )
+                } 
+                else return null;
+            })
         }
         const Line = ({ line }) => (
             <Path
@@ -90,7 +142,7 @@ class Graph extends React.Component {
         return (
             <AreaChart
             style={ extra ? StyleSheet.absoluteFill : styles.chart }
-            data={ graphData }
+            data={ data }
             svg={{ fill: color }}
             yMin={macro ? 0 : undefined}
             yMax={macro ? 1 : undefined}
@@ -106,10 +158,21 @@ class Graph extends React.Component {
 
     renderWeightChart() {
         const { data } = this.props;
+        const { dateMin, dateMax } = this.state;
         const contentInset = {top: 10, bottom: 10}
-        const graphData = this.filterDataByDate(this.sortByDate(data.tracking)).map(item => item.weight);
         const sliderData = this.filterDataByDate(this.sortByDate(data.tracking).map(item => ({ weight: item.weight, date: item.date })));
-        
+        const sliderDataDates = sliderData.map(item => item.date);
+        const range = moment(dateMax).diff(dateMin, 'days');
+        const graphData = [];
+        for (let i=0; i<range; i++) {
+            if (sliderDataDates.includes(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'))) {
+                const index = sliderDataDates.indexOf(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'));
+                graphData.push(sliderData[index].weight);
+            } else {
+                graphData.push(null);
+            }
+        }
+        console.log(sliderData, sliderDataDates)
         const chart = (
         <View style={styles.chartContainer}>
             {this.renderChartArea(graphData, 'rgba(92, 203, 133, .3)', 'rgba(92, 203, 133, 1)')}
@@ -127,11 +190,13 @@ class Graph extends React.Component {
                 } }
             />
         </View>);
+
         return this.renderChart(chart, sliderData, 'weight');
     }
 
     renderCaloriesChart() {
         const { data } = this.props;
+        const { dateMin, dateMax } = this.state;
         const contentInset = {top: 10, bottom: 10}
         const macroDates = {};
         data.entries.forEach((item) => {
@@ -155,8 +220,19 @@ class Graph extends React.Component {
         Object.keys(macroDates).forEach((key) => {
             macroData.push(macroDates[key])
         });
-        const graphData = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.calories);
-        const sliderData = this.filterDataByDate(this.sortByDate(macroData).map(item => ({ calories: item.calories, date: item.date })));    
+        // const graphData = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.calories);
+        const sliderData = this.filterDataByDate(this.sortByDate(macroData).map(item => ({ calories: item.calories, date: item.date }))); 
+        const sliderDataDates = sliderData.map(item => item.date);
+        const range = moment(dateMax).diff(dateMin, 'days');
+        const graphData = [];
+        for (let i=0; i<range; i++) {
+            if (sliderDataDates.includes(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'))) {
+                const index = sliderDataDates.indexOf(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'));
+                graphData.push(sliderData[index].calories);
+            } else {
+                graphData.push(null);
+            }
+        }   
         const chart = (
         <View style={styles.chartContainer}>
             {this.renderChartArea(graphData, 'rgba(92, 203, 133, .3)', 'rgba(92, 203, 133, 1)')}
@@ -179,6 +255,7 @@ class Graph extends React.Component {
 
     renderMacrosChart() {
         const { data } = this.props;
+        const { dateMin, dateMax } = this.state;
         const contentInset = {top: 10, bottom: 10}
         const macroDates = {};
         data.entries.forEach((item) => {
@@ -202,10 +279,27 @@ class Graph extends React.Component {
         Object.keys(macroDates).forEach((key) => {
             macroData.push(macroDates[key])
         });
-        const graphDataFat = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.fat/item.calories);
-        const graphDataProtein = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.protein/item.calories);
-        const graphDataCarbs = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.carbs/item.calories);
-        const sliderData = this.filterDataByDate(this.sortByDate(macroData)).map(item => ({ fat: item.fat, protein: item.protein, carbs: item.carbs, date: item.date }));  
+        // const graphDataFat = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.fat/item.calories);
+        // const graphDataProtein = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.protein/item.calories);
+        // const graphDataCarbs = this.filterDataByDate(this.sortByDate(macroData)).map(item => item.carbs/item.calories);
+        const sliderData = this.filterDataByDate(this.sortByDate(macroData)).map(item => ({ fat: item.fat, protein: item.protein, carbs: item.carbs, date: item.date, calories: item.calories }));  
+        const sliderDataDates = sliderData.map(item => item.date);
+        const range = moment(dateMax).diff(dateMin, 'days');
+        const graphDataFat = [];
+        const graphDataProtein = [];
+        const graphDataCarbs = [];
+        for (let i=0; i<range; i++) {
+            if (sliderDataDates.includes(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'))) {
+                const index = sliderDataDates.indexOf(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'));
+                graphDataFat.push(sliderData[index].fat/sliderData[index].calories);
+                graphDataProtein.push(sliderData[index].protein/sliderData[index].calories);
+                graphDataCarbs.push(sliderData[index].carbs/sliderData[index].calories);
+            } else {
+                graphDataFat.push(null);
+                graphDataProtein.push(null);
+                graphDataCarbs.push(null);
+            }
+        }   
         const chart = (
             <View style={styles.chartContainer}>
                 {this.renderChartArea(graphDataFat, 'rgba(237, 245, 97, .3)', 'rgba(237, 245, 97, 1)', 'macro', 'extra')}
