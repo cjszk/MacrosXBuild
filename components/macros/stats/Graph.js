@@ -225,7 +225,7 @@ class Graph extends React.Component {
         const sliderDataDates = sliderData.map(item => item.date);
         const range = moment(dateMax).diff(dateMin, 'days');
         const graphData = [];
-        for (let i=0; i<range; i++) {
+        for (let i=0; i<=range; i++) {
             if (sliderDataDates.includes(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'))) {
                 const index = sliderDataDates.indexOf(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'));
                 graphData.push(sliderData[index].calories);
@@ -288,7 +288,7 @@ class Graph extends React.Component {
         const graphDataFat = [];
         const graphDataProtein = [];
         const graphDataCarbs = [];
-        for (let i=0; i<range; i++) {
+        for (let i=0; i<=range; i++) {
             if (sliderDataDates.includes(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'))) {
                 const index = sliderDataDates.indexOf(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'));
                 graphDataFat.push(sliderData[index].fat/sliderData[index].calories);
