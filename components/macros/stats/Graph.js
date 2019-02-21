@@ -30,7 +30,6 @@ class Graph extends React.Component {
     filterDataByDate(data) {
         const { dateMin, dateMax } = this.state;
         return data.filter(item => {
-            console.log(moment(item.date).diff(dateMax, 'days'))
             if (moment(item.date).diff(dateMin, 'days') >= 0 && moment(item.date).diff(dateMax, 'days') <= 0) return item;
         });
     }
@@ -164,15 +163,16 @@ class Graph extends React.Component {
         const sliderDataDates = sliderData.map(item => item.date);
         const range = moment(dateMax).diff(dateMin, 'days');
         const graphData = [];
-        for (let i=0; i<range; i++) {
+        for (let i=0; i<=range; i++) {
             if (sliderDataDates.includes(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'))) {
+                console.log(i)
                 const index = sliderDataDates.indexOf(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'));
                 graphData.push(sliderData[index].weight);
             } else {
                 graphData.push(null);
             }
         }
-        console.log(sliderData, sliderDataDates)
+        console.log(graphData)
         const chart = (
         <View style={styles.chartContainer}>
             {this.renderChartArea(graphData, 'rgba(92, 203, 133, .3)', 'rgba(92, 203, 133, 1)')}

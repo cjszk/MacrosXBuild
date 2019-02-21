@@ -19,7 +19,7 @@ class AdFree extends React.Component {
             <Text style={styles.text}>3. Intermittent Fasting Timer/Lock</Text>
             <View style={styles.feedbackView}>
                 <Text style={styles.feedback}>Feedback? Ideas? Bugs to report?</Text>
-                <Text style={styles.feedback}>Email: macrosX@gmail.com</Text>
+                <Text style={styles.feedback}>Email: MacrosXDev@gmail.com</Text>
             </View>
         </View>
         );
