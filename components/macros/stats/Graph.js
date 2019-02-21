@@ -165,14 +165,12 @@ class Graph extends React.Component {
         const graphData = [];
         for (let i=0; i<=range; i++) {
             if (sliderDataDates.includes(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'))) {
-                console.log(i)
                 const index = sliderDataDates.indexOf(moment(dateMin).add(i, 'days').format('MM/DD/YYYY'));
                 graphData.push(sliderData[index].weight);
             } else {
                 graphData.push(null);
             }
         }
-        console.log(graphData)
         const chart = (
         <View style={styles.chartContainer}>
             {this.renderChartArea(graphData, 'rgba(92, 203, 133, .3)', 'rgba(92, 203, 133, 1)')}
