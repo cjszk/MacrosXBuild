@@ -23,12 +23,7 @@ class Settings extends React.Component {
                     name: 'Developer Notes',
                     tab: 'devNotes',
                     action: () => this.props.dispatch(toggleTab('devNotes')),
-                },
-                {
-                    name: 'Go Ad-Free!',
-                    tab: 'adFree',
-                    action: () => this.props.dispatch(toggleTab('adFree')),
-                },
+                }
             ]
         }
     }

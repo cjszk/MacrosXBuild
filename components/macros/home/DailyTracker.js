@@ -5,7 +5,6 @@ import DailyTrackerItem from './DailyTrackerItem';
 import moment from 'moment';
 import globalStyles from '../../../globalStyles';
 import { toggleTab } from '../../../actions/appState';
-import { AdMobBanner } from 'react-native-admob';
 
 class DailyTracker extends React.Component {
 
@@ -35,17 +34,8 @@ class DailyTracker extends React.Component {
                     this.scrollView.scrollToEnd({animated: true});
                 }}>
                     {renderItems}
-
-                    {!dailyData.length || moment(data.adFree).format('x') > moment().format('x') ? null :                     
-                        <View style={styles.advertisement}>
-                        <AdMobBanner
-                            adSize="banner"
-                            adUnitID="ca-app-pub-9750102857494675/9229198582"
-                            testDevices={[AdMobBanner.simulatorId]}
-                        />
-                        </View>
-                    }
-                    {dailyData.length ? <DailyTrackerItem item={null} key={null}/> : null}
+                    {dailyData.length <= 1 ? <DailyTrackerItem key={'p1'} item={null}/> : null}
+                    {dailyData.length ? <DailyTrackerItem key={'p2'} item={null}/> : null}
                 </ScrollView>
             </View>
         );

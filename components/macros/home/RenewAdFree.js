@@ -1,3 +1,4 @@
+// legacy
 import React from 'react';
 import { connect } from 'react-redux';
 import { AsyncStorage, View, TouchableOpacity, Text } from 'react-native';
