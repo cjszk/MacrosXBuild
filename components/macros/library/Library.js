@@ -13,6 +13,7 @@ import globalStyles from "../../../globalStyles";
 import LibraryItem from "./LibraryItem";
 import USDAItem from "./usdaItem";
 import { toggleTab } from "../../../actions/appState";
+import NutritionixItem from "./NutritionixItem";
 
 // const API_KEY = process.env.REACT_APP_USDA_API_KEY;
 const API_KEY = "N12asrcuD5j7Su6Zy5J8ZtrUtxLahcSPQyR701Mf";
@@ -34,33 +35,52 @@ class Library extends React.Component {
   search(searchQuery) {
     this.setState({ searchQuery, apiSearchItemsInfo: [], failedSearch: false });
     if (searchQuery.length < 2) return null;
-    const searchUrl = `https://trackapi.nutritionix.com/v2/natural/nutrients`;
-    this.setState({ loading: true });
-    fetch(searchUrl, {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        "x-app-id": "6e301034",
-        "x-app-key": "3443b83f00bdef5371298d187d83cbba",
-        "x-remote-user-id": "0"
-      },
-      body: JSON.stringify({
-        query: searchQuery
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      const searchUrl = `https://trackapi.nutritionix.com/v2/search/instant?query=${searchQuery}&detailed=true`;
+      this.setState({ loading: true });
+      fetch(searchUrl, {
+        method: "GET",
+        headers: {
+          "x-app-id": "6e301034",
+          "x-app-key": "3443b83f00bdef5371298d187d83cbba",
+          "x-remote-user-id": "0"
+        }
       })
-    })
-      .then(res => {
-        console.log(res);
-        return res.json();
-      })
-      .then(results => {
-        console.log(results);
-        this.setState({
-            apiSearchItems: results.foods
+        .then(res => {
+          return res.json();
         })
-        console.log(this.state)
-      })
-      .catch(err => console.error(err));
+        .then(results => {
+            const apiSearchItems = results.common;
+            results.branded.forEach((item) => apiSearchItems.push(item))
+            this.setState({apiSearchItems})
+            console.log(this.state)
+          // const items = results.common;
+          // results.branded.forEach((item) => items.push(item));
+          // this.setState({
+          //     apiSearchItems: items
+          // })
+          // console.log(this.state)
+
+          // const searchUrl = `https://trackapi.nutritionix.com/v2/natural/nutrients`;
+          // this.setState({ loading: true });
+          // fetch(searchUrl, {
+          // method: "POST",
+          // headers: {
+          //     'Accept': 'application/json',
+          //     'Content-Type': 'application/json',
+          //     "x-app-id": "6e301034",
+          //     "x-app-key": "3443b83f00bdef5371298d187d83cbba",
+          //     "x-remote-user-id": "0"
+          // },
+          // body: JSON.stringify({
+          //     query: searchQuery
+          // })
+          // })
+        })
+        .catch(err => console.error(err));
+    }, 2000);
+
     // const database = 'Standard+Reference';
     // const searchUrl = `https://api.nal.usda.gov/ndb/search/?format=json&q=${searchQuery}&ds=${database}&api_key=${API_KEY}`;
     // this.timeout = setTimeout(() => {
@@ -103,50 +123,51 @@ class Library extends React.Component {
     return layoutMeasurement.height + contentOffset.y >= contentSize.height;
   };
 
-  loadMore() {
-    const { apiSearchItems, searchCount } = this.state;
-    if (!apiSearchItems) return null;
-    this.setState({ failedSearch: false, loading: true });
-    let urlString = "https://api.nal.usda.gov/ndb/V2/reports?";
-    let maxIndex =
-      apiSearchItems.length > searchCount + 25
-        ? searchCount + 25
-        : apiSearchItems.length;
-    let count = searchCount;
-    for (let i = searchCount; i < maxIndex; i++) {
-      urlString += `ndbno=${apiSearchItems[i].ndbno}&`;
-      count++;
-    }
-    urlString += `type=f&format=json&api_key=${API_KEY}`;
-    return fetch(urlString, {
-      method: "GET"
-    })
-      .then(res => {
-        return res.json();
-      })
-      .then(results => {
-        this.setState(prevState => ({
-          apiSearchItemsInfo: [
-            ...prevState.apiSearchItemsInfo,
-            ...results.foods
-          ],
-          loading: false,
-          searchCount: count
-        }));
-      })
-      .catch(err => console.error(err));
-  }
+//   loadMore() {
+//     const { apiSearchItems, searchCount } = this.state;
+//     if (!apiSearchItems) return null;
+//     this.setState({ failedSearch: false, loading: true });
+//     let urlString = "https://api.nal.usda.gov/ndb/V2/reports?";
+//     let maxIndex =
+//       apiSearchItems.length > searchCount + 25
+//         ? searchCount + 25
+//         : apiSearchItems.length;
+//     let count = searchCount;
+//     for (let i = searchCount; i < maxIndex; i++) {
+//       urlString += `ndbno=${apiSearchItems[i].ndbno}&`;
+//       count++;
+//     }
+//     urlString += `type=f&format=json&api_key=${API_KEY}`;
+//     return fetch(urlString, {
+//       method: "GET"
+//     })
+//       .then(res => {
+//         return res.json();
+//       })
+//       .then(results => {
+//         this.setState(prevState => ({
+//           apiSearchItemsInfo: [
+//             ...prevState.apiSearchItemsInfo,
+//             ...results.foods
+//           ],
+//           loading: false,
+//           searchCount: count
+//         }));
+//       })
+//       .catch(err => console.error(err));
+//   }
 
   renderSearchItems() {
-    const items = this.state.apiSearchItemsInfo;
-    const { data } = this.props;
+    const items = this.state.apiSearchItems;
+    console.log(items)
     if (!items || items.length === 0) {
-      return <View />;
+        return <View />;
     }
     const results = items
-      .filter(item => item.food.nutrients[0].measures.length !== 0)
+    //   .filter(item => item.food.nutrients[0].measures.length !== 0)
       .map((item, index) => {
-        return <USDAItem key={index} item={item.food} />;
+        // return <USDAItem key={index} item={item.food} />;
+        return <NutritionixItem key={index} item={item}/>
       });
     // if (!moment(data.adFree).format('x') > moment().format('x')) {
     //     results.forEach((item, index) => {
@@ -181,7 +202,7 @@ class Library extends React.Component {
     if (loading)
       renderLoading = (
         <Text style={styles.loading}>
-          Loading Search Results from USDA API...
+          Loading Search Results...
         </Text>
       );
 
@@ -205,7 +226,7 @@ class Library extends React.Component {
           <ScrollView
             onScroll={({ nativeEvent }) => {
               if (this.reachedBottom(nativeEvent)) {
-                this.loadMore();
+                // this.loadMore();
               }
             }}
             scrollEventThrottle={400}
