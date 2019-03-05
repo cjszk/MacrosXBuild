@@ -26,28 +26,35 @@ class Footer extends React.Component {
                         action: () => this.props.dispatch(toggleTab('quickAdd')),
                     },
                     {
-                        name: 'Library',
+                        name: 'Scan',
+                        tab: 'scan',
+                        icon: 'barcode',
+                        type: 'material-community',
+                        action: () => this.props.dispatch(toggleTab('home')),
+                    },
+                    {
+                        name: 'Search',
                         tab: 'library',
                         icon: 'search',
                         type: 'MaterialIcons',
                         action: () => this.props.dispatch(toggleTab('library')),
                     },
                     {
-                        name: 'Stats',
+                        name: 'Misc',
                         tab: 'stats',
                         icon: 'line-graph',
                         type: 'entypo',
                         action: () => this.props.dispatch(toggleTab('stats')),
                     },
-                    {
-                        name: 'Settings',
-                        tab: 'settings',
-                        icon: 'cog',
-                        type: 'entypo',
-                        action: () => this.props.dispatch(toggleTab('settings')),
-                        // When we have more setting windows, use this below.
-                        // action: () => this.props.dispatch(toggleTab('settings')),
-                    },
+                    // {
+                    //     name: 'Settings',
+                    //     tab: 'settings',
+                    //     icon: 'cog',
+                    //     type: 'entypo',
+                    //     action: () => this.props.dispatch(toggleTab('settings')),
+                    //     // When we have more setting windows, use this below.
+                    //     // action: () => this.props.dispatch(toggleTab('settings')),
+                    // },
                     // {
                     //     name: 'Workouts',
                     //     icon: 'fitness-center',
@@ -94,8 +101,8 @@ class Footer extends React.Component {
         return items.map((item) => {
             return (
                 <TouchableOpacity style={styles.item} key={item.name} onPress={() => item.action()}>
-                    <Icon style={styles.itemIcon} name={item.icon} type={item.type} size={35} color={tab === item.tab ? '#000' : '#fff'}/>
-                    <Text style={styles.itemText}>{item.name}</Text>                    
+                    <Icon style={styles.itemIcon} name={item.icon} type={item.type} size={40} color={tab === item.tab ? '#fff' : '#000'}/>
+                    <Text style={[styles.itemText, {color: tab === item.tab ? '#fff' : '#000'}]}>{item.name}</Text>                    
                 </TouchableOpacity>
             );
         })
@@ -135,7 +142,7 @@ const styles = StyleSheet.create({
         // width: '25%',
     },
     itemIcon: {
-
+        height: 30,
     },
     itemText: {
         marginTop: 10,
