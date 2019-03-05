@@ -11,9 +11,9 @@ const macroColors = {
 const colors = {
     one: '#05386B',
     two: '#EDF5E1',
-    three: '#8EE4AF',
-    four: '#379683',
-    five: '#5CCB85',
+    three: '#7ed56f',
+    four: '#28b485',
+    five: '#55c57a',
     listIcon: '#EDF5E1'  
 }
 

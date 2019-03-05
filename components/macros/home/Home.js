@@ -21,8 +21,6 @@ import Tracking from '../stats/Tracking';
 import Graph from '../stats/Graph';
 import AdSeen from '../settings/AdSeen';
 import DevNotes from '../settings/DevNotes';
-import globalStyles from '../../../globalStyles';
-import RenewAdFree from './RenewAdFree';
 
 class Home extends React.Component {
 
@@ -65,7 +63,6 @@ class Home extends React.Component {
             case 'trackingSettings': return <View style={styles.main}><TrackingSettings/></View>;
             case 'tracking': return <View style={styles.main}><Tracking/></View>;
             case 'graphs': return <View style={styles.main}><Graph/></View>;
-            case 'renewAdFree': return <View style={styles.main}><RenewAdFree/></View>;
           }
     }
 

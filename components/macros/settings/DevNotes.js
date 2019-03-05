@@ -1,22 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text } from 'react-native';
-import { toggleTab } from '../../../actions/appState';
-import moment from 'moment';
 
-class AdFree extends React.Component {
+class DevNotes extends React.Component {
 
     render() {
         return (
         <View style={styles.main}>
-            <Text style={styles.header}>Version 1.00</Text>
+            <Text style={styles.header}>Version 1.02</Text>
             <View style={styles.descriptionContainer}>
                 <Text style={styles.description}>Thank you for using MacrosX. I've invested much time into creating this simple clutter-free macronutrient tracking application for flexible dieters. If you like MacrosX please do leave a 5-star review in the app store and tell your friends!</Text>
             </View>
-            <Text style={styles.text}>Plans for future versions:</Text>
-            <Text style={styles.text}>1. Barcode Scanner and Enhanced Food Database (when MacrosX generates enough revenue to pay for services from nutrition databases- want it sooner? Support this application!)</Text>
+            <Text style={styles.text}>Plans for near future:</Text>
+            <Text style={styles.text}>1. Barcode Scanner and comprehensive nutrition database coming soon!</Text>
             <Text style={styles.text}>2. Improved Graphs and Tracking</Text>
-            <Text style={styles.text}>3. Intermittent Fasting Timer/Lock</Text>
             <View style={styles.feedbackView}>
                 <Text style={styles.feedback}>Feedback? Ideas? Bugs to report?</Text>
                 <Text style={styles.feedback}>Email: MacrosXDev@gmail.com</Text>
@@ -85,4 +82,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(AdFree);
+export default connect(mapStateToProps)(DevNotes);
