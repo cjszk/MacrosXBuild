@@ -24,7 +24,6 @@ class DailyTracker extends React.Component {
 
     render() {
         const { dailyData, data } = this.props;
-        if (data.adFree) console.log(moment(data.adFree).format('x'), moment().format('x'))
         let renderItems = dailyData.sort((a, b) => moment(a.date).format('x') - moment(b.date).format('x')).map((item, index) => <DailyTrackerItem item={item} key={index}/>);
         if (dailyData.length === 0) renderItems = this.renderEmpty();
         return (

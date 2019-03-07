@@ -18,7 +18,8 @@ class Camera extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      found: false
+      found: false,
+      warningSent: false
     };
   }
   getOauthParameters() {
@@ -55,6 +56,7 @@ class Camera extends Component {
   }
 
   async getFoodInfo(data) {
+    const { warningSent } = this.state;
     const methodParams = {
       method: "food.find_id_for_barcode",
       barcode: data
@@ -62,13 +64,15 @@ class Camera extends Component {
     await this.makeApiCall(methodParams)
       .then(res => res.json())
       .then(res => {
-        if (res.food_id.value) {
+        if (res.food_id.value !== "0") {
           const food = { food_id: res.food_id.value };
           this.props.dispatch(addFatSecretItem(food));
         } else {
-          alert(
-            "Item with this barcode not found in Fat Secret's database! ='("
-          );
+          if (!warningSent)
+            alert(
+              "Item with this barcode not found in Fat Secret's database! ='("
+            );
+          this.setState({ found: false, warningSent: true });
         }
       });
   }
@@ -90,7 +94,6 @@ class Camera extends Component {
           }
           onBarCodeRead={({ data }) => {
             if (!found) {
-              console.log(data);
               this.getFoodInfo(data);
               this.setState({ found: true });
             }
@@ -100,18 +103,20 @@ class Camera extends Component {
           //     console.log(barcodes);
           //   }}
         />
-        <View style={{ borderWidth: 5, borderColor: 'red', width: 300, height: 200, position: 'absolute', alignSelf: 'center', marginTop: '50%'}}/>
+        <View
+          style={{
+            borderWidth: 5,
+            borderColor: "red",
+            width: 300,
+            height: 200,
+            position: "absolute",
+            alignSelf: "center",
+            marginTop: "50%"
+          }}
+        />
       </View>
     );
   }
-
-  takePicture = async function() {
-    if (this.camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await this.camera.takePictureAsync(options);
-      console.log(data.uri);
-    }
-  };
 }
 
 const styles = StyleSheet.create({

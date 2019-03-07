@@ -85,7 +85,7 @@ const styles = {
         width: '15%',
     },
     macronutrient: {
-        paddingTop: '25%',
+        paddingTop: '10%',
         width: 50,
         height: '100%',
         textAlign: 'center',

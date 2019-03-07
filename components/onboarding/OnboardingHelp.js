@@ -294,7 +294,6 @@ class OnboardingHelp extends React.Component {
     }
 
     render() {
-        console.log(this.state);
         const { slide } = this.state;
         if (slide === 1) return this.renderFirst();
         if (slide === 2) return this.renderSecond();

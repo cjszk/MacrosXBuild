@@ -225,8 +225,6 @@ class Graph extends React.Component {
                     />
                 </View>);
         }
-        console.log(sliderData);
-
     }
    
     render() {

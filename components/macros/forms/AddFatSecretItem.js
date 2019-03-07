@@ -1,7 +1,7 @@
 import React from "react";
 import { stringify } from "query-string";
 import hmacsha1 from "hmacsha1";
-import moment from 'moment';
+import moment from "moment";
 import { connect } from "react-redux";
 import {
   AsyncStorage,
@@ -197,8 +197,7 @@ class AddFatSecretItem extends React.Component {
     const nutritionPath = Array.isArray(apiSearchItem.servings.serving)
       ? apiSearchItem.servings.serving[selected]
       : apiSearchItem.servings.serving;
-    const servingSize =
-      Number(nutritionPath.serving_description.split(" ")[0]) * servings;
+    const servingSize = Number(nutritionPath.serving_description.split(" ")[0]);
     const measurement = nutritionPath.serving_description
       .split(" ")
       .slice(1)
@@ -240,8 +239,8 @@ class AddFatSecretItem extends React.Component {
                 onChangeText={s => this.setState({ servings: s })}
               />
               <Text style={styles.measurement}>
-                {Number(parseInt(servingSize * 10) / 10)
-                  ? String(parseInt(servingSize * 10) / 10)
+                {Number(parseInt(servingSize * 10) / 10) * servings
+                  ? String(parseInt(servingSize * 10) / 10) * servings
                   : "0"}{" "}
                 {measurement}
               </Text>
