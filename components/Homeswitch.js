@@ -6,7 +6,7 @@ import WorkoutsHome from './workouts/home/Home';
 import Onboard from './onboarding/Onboard';
 import OnboardGoals from './onboarding/OnboardGoals';
 import OnboardingHelp from './onboarding/OnboardingHelp';
-import { Camera } from './macros/scan/Camera';
+import Camera from './macros/scan/Camera';
 
 class HomeSwitch extends React.Component {
 

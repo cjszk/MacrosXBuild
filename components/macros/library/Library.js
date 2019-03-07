@@ -119,7 +119,7 @@ class Library extends React.Component {
           <TouchableOpacity
             onPress={() => this.props.dispatch(toggleTab("newItem"))}
           >
-            <Text style={styles.newItem}>New Item</Text>
+            <Text style={styles.newItem}>Custom Item</Text>
           </TouchableOpacity>
           <View>
             <TextInput

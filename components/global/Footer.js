@@ -19,18 +19,18 @@ class Footer extends React.Component {
             action: () => this.props.dispatch(toggleTab("home"))
           },
           {
-            name: "Search",
-            tab: "library",
-            icon: "search",
-            type: "MaterialIcons",
-            action: () => this.props.dispatch(toggleTab("library"))
-          },
-          {
             name: "Scan",
             tab: "scan",
             icon: "barcode",
             type: "material-community",
             action: () => this.props.dispatch(toggleTab("scan"))
+          },
+          {
+            name: "Search",
+            tab: "library",
+            icon: "search",
+            type: "MaterialIcons",
+            action: () => this.props.dispatch(toggleTab("library"))
           },
           {
             name: "Quick Add",
