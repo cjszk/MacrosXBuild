@@ -20,6 +20,16 @@ class Settings extends React.Component {
                     action: () => this.props.dispatch(toggleTab('trackingSettings')),
                 },
                 {
+                    name: 'Tracking',
+                    tab: 'tracking',
+                    action: () => this.props.dispatch(toggleTab('tracking')),
+                },
+                {
+                    name: 'Graphs',
+                    tab: 'graphs',
+                    action: () => this.props.dispatch(toggleTab('graphs')),
+                },
+                {
                     name: 'Developer Notes',
                     tab: 'devNotes',
                     action: () => this.props.dispatch(toggleTab('devNotes')),

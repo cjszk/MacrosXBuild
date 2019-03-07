@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import moment from 'moment';
 import MainTracker from './MainTracker';
 import QuickAdd from '../forms/QuickAdd';
@@ -14,13 +14,12 @@ import EditItem from '../forms/EditItem';
 import Settings from '../settings/Settings';
 import Stats from '../stats/Stats';
 import Goals from '../settings/Goals';
-import AdFree from '../settings/AdFree';
 import { setNewDay, toggleTab } from '../../../actions/appState';
 import TrackingSettings from '../settings/TrackingSettings';
 import Tracking from '../stats/Tracking';
 import Graph from '../stats/Graph';
-import AdSeen from '../settings/AdSeen';
 import DevNotes from '../settings/DevNotes';
+import AddFatSecretItem from '../forms/AddFatSecretItem';
 
 class Home extends React.Component {
 
@@ -57,12 +56,11 @@ class Home extends React.Component {
             case 'settings': return <View style={styles.main}><Settings/></View>;
             case 'stats': return <View style={styles.main}><Stats/></View>;
             case 'goals': return <View style={styles.main}><Goals/></View>;
-            case 'adFree': return <View style={styles.main}><AdFree/></View>;
-            case 'adSeen': return <View style={styles.main}><AdSeen/></View>;
             case 'devNotes': return <View style={styles.main}><DevNotes/></View>;
             case 'trackingSettings': return <View style={styles.main}><TrackingSettings/></View>;
             case 'tracking': return <View style={styles.main}><Tracking/></View>;
             case 'graphs': return <View style={styles.main}><Graph/></View>;
+            case 'fatSecretItem': return <View style={styles.main}><AddFatSecretItem/></View>
           }
     }
 

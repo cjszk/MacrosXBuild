@@ -9,7 +9,7 @@ class DailyTrackerItem extends React.Component {
 
     render() {
         const { item } = this.props;
-        if (!item) return (<View style={styles.main}/>)
+        if (!item) return (<View style={styles.main}/>);
         return (
             <View style={[styles.flexRow, styles.main]}>
                 <View style={styles.name}>

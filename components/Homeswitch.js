@@ -6,6 +6,7 @@ import WorkoutsHome from './workouts/home/Home';
 import Onboard from './onboarding/Onboard';
 import OnboardGoals from './onboarding/OnboardGoals';
 import OnboardingHelp from './onboarding/OnboardingHelp';
+import { Camera } from './macros/scan/Camera';
 
 class HomeSwitch extends React.Component {
 
@@ -14,7 +15,8 @@ class HomeSwitch extends React.Component {
         const { mode, data, tab } = this.props;
         if (tab === 'onboardingGoals') return <View><OnboardGoals/></View>
         if (tab === 'onboardingHelp') return <View><OnboardingHelp/></View>
-        if (!data) return <View><Onboard/></View>;
+        if (tab === 'scan') return <Camera/>;
+        if (!data || !data.settings) return <View><Onboard/></View>;
         let home = <MacrosHome/>;
         if (mode === 'workouts') home = <WorkoutsHome/>
         return (
