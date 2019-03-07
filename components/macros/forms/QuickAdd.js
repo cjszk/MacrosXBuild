@@ -94,16 +94,26 @@ class QuickAdd extends React.Component {
       date,
       servingSize
     };
-    console.log(data)
+    const newLibraryEntry = {
+      name,
+      protein,
+      carbs,
+      fat,
+      fiber,
+      sugar,
+      date,
+      servingSize,
+      measurement
+    };
+    let newData = data;
     const newEntries = data.entries.slice();
     newEntries.push(newEntry);
     newData.entries = newEntries;
-    // if (name !== defaultName) {
-    //   const newLibraryEntries = data.library.slice();
-    //   newLibraryEntries.push(newLibraryEntry);
-    //   newData.library = newLibraryEntries;
-    // }
-    let newData = data;
+    if (name !== defaultName) {
+      const newLibraryEntries = data.library.slice();
+      newLibraryEntries.push(newLibraryEntry);
+      newData.library = newLibraryEntries;
+    }
     try {
       await AsyncStorage.setItem("data", JSON.stringify(newData));
       this.props.dispatch(toggleTab("home"));

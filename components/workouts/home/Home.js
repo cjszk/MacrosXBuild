@@ -18,7 +18,6 @@ class Home extends React.Component {
     }
 
     handleTabWorkouts() {
-        // if (this.props.tab === 'quickAdd') return <View style={styles.main}><QuickAdd/></View>;
         return (
         <View style={styles.main}>
             <Text>Test</Text>

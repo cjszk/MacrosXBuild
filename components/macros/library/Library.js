@@ -83,44 +83,6 @@ class Library extends React.Component {
       });
   }
 
-  //   async getFoodInfo(food) {
-  //     const methodParams = {
-  //       method: "food.get",
-  //       food_id: food.food_id
-  //     };
-  //     await this.makeApiCall(methodParams)
-  //       .then(res => res.json())
-  //       .then(res => {
-  //         if (res && res.food) {
-  //             console.log(res.food)
-  //           const nutritionPath = Object.keys(res.food).includes("servings")
-  //             ? res.food.servings.serving[0]
-  //             : null;
-
-  //           if (nutritionPath) {
-  //             const item = {
-  //               name: res.food.food_name,
-  //               protein: Object.keys(nutritionPath).includes("protein")
-  //                 ? nutritionPath.protein
-  //                 : 0,
-  //               carbs: Object.keys(nutritionPath).includes("carbohydrate")
-  //                 ? nutritionPath.carbohydrate
-  //                 : 0,
-  //               fat: Object.keys(nutritionPath).includes("fat")
-  //                 ? nutritionPath.fat
-  //                 : 0
-  //             };
-  //             this.setState(prevState => ({
-  //               apiSearchItems: [...prevState.apiSearchItems, item]
-  //             }));
-  //           }
-  //         }
-  //         else {
-  //         console.log(res);
-  //         }
-  //       });
-  //   }
-
   renderSearchItems() {
     const items = this.state.apiSearchItems.food;
     if (!items || items.length === 0) {
